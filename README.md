@@ -5,7 +5,7 @@
 Run the pipeline to download orders and transform phone numbers:
 
 ```bash
-bash /home/hylmarj/doc-digital-horizon-goldsport/help/etls/run_goldsport_pipeline.sh
+bash ~/aps-goldsport-analytics/etls/run_goldsport_pipeline.sh
 ```
 
 The pipeline:

@@ -1,18 +1,65 @@
 # Goldsport Analytics
 
+## How It Works
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        AUTOMATED FLOW (Daily)                          │
+│                                                                         │
+│  GitHub Actions (6:00 AM UTC)                                          │
+│       │                                                                 │
+│       ▼                                                                 │
+│  Download orders from Goldsport ──► Transform phone numbers            │
+│       │                                                                 │
+│       ▼                                                                 │
+│  Commit & push to GitHub ──► Triggers Amplify build ──► Live website   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         MANUAL FLOW (Local)                            │
+│                                                                         │
+│  1. git pull                    # Get latest data from GitHub          │
+│  2. bash etls/run_goldsport_pipeline.sh   # Run pipeline locally       │
+│  3. git add . && git commit && git push   # Push changes               │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+**Important:** GitHub Actions runs the pipeline daily and commits changes. To get the latest data locally, always `git pull` first.
+
 ## Pipeline
 
-Run the pipeline to download orders and transform phone numbers:
+Run manually (optional - GitHub Actions runs daily):
 
 ```bash
-bash ~/aps-goldsport-analytics/etls/run_goldsport_pipeline.sh
+cd ~/aps-goldsport-analytics
+git pull                                    # Get latest changes first!
+bash etls/run_goldsport_pipeline.sh         # Run pipeline
+git add . && git commit -m "Update" && git push
 ```
 
 The pipeline:
-1. Downloads orders from Goldsport export (http://kurzy.classicskischool.cz/export/export-tsv-2026.php)
+1. Downloads orders from Goldsport export
 2. Saves timestamped orders file + updates `orders-current-season.tsv`
 3. Runs phone numbers ETL transformation
 4. Updates `phone_numbers-current-season.csv`
+
+## GitHub Actions
+
+Workflow: `.github/workflows/daily-pipeline.yml`
+
+**Triggers:**
+- Daily at 6:00 AM UTC (7:00 AM CET)
+- On every push to `main` branch
+- Manual trigger via GitHub Actions UI
+
+**What it does:**
+1. Checks out repository
+2. Runs the pipeline (download + transform)
+3. Cleans up duplicate files
+4. Commits and pushes changes back to GitHub
+5. Push triggers Amplify deployment automatically
 
 ## Data Files
 
@@ -34,13 +81,20 @@ The pipeline:
 | `orders__graph_cumulative.html` | Orders by category (Kids, Skis, Snowboard) |
 | `orders_phone_numbers__graph_cumulative_sums.html` | Phone numbers analysis by country |
 
-All dashboards read from `*-current-season.*` files - no manual updates needed after running the pipeline.
+All dashboards read from `*-current-season.*` files - automatically updated.
 
 ## Deployment
 
+**Automatic:** Push to `main` → Amplify builds and deploys
+
+**Manual S3 sync (if needed):**
 ```bash
 cd ~/aps-goldsport-analytics
 aws s3 sync --delete --profile JiHy__vsb__299 . s3://datite-ss1-infgsp-299025166536/staging-goldsport-analytics/
 ```
 
-Trigger deployment manually after sync.
+## URLs
+
+- **Live:** https://www.analytics.classicskischool.cz
+- **GitHub:** https://github.com/jirihylmar/aps-goldsport-analytics
+- **Amplify:** App ID `drz9yi5cw9kfv`

@@ -1,0 +1,78 @@
+name: Daily Orders Pipeline
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Run daily at 6:00 AM UTC (7:00 AM CET)
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Run pipeline
+        run: |
+          # Download orders
+          TIMESTAMP=$(date +"%Y-%m-%d-%H%M%S")
+          ORDERS_DIR="goldsport__orders___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
+          PHONE_DIR="goldsport__phone_numbers___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
+
+          echo "=== Downloading orders ==="
+          curl -s "http://kurzy.classicskischool.cz/export/export-tsv-2026.php" > /dev/null
+          curl -s "http://kurzy.classicskischool.cz/export/export-tsv-2026.php?action=download" -o "${ORDERS_DIR}/orders-${TIMESTAMP}.tsv"
+
+          # Update current season file
+          cp "${ORDERS_DIR}/orders-${TIMESTAMP}.tsv" "${ORDERS_DIR}/orders-current-season.tsv"
+
+          echo "=== Running phone numbers ETL ==="
+          python etls/etl__phone_numbers.py "${ORDERS_DIR}/orders-${TIMESTAMP}.tsv"
+
+          # Update current season phone numbers
+          LATEST_PHONES=$(ls -t ${PHONE_DIR}/phone_numbers_2*.csv 2>/dev/null | head -1)
+          if [ -n "${LATEST_PHONES}" ]; then
+            cp "${LATEST_PHONES}" "${PHONE_DIR}/phone_numbers-current-season.csv"
+          fi
+
+          echo "=== Pipeline complete ==="
+
+      - name: Clean up duplicate files
+        run: |
+          ORDERS_DIR="goldsport__orders___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
+          # Keep only the latest file per day (plus current-season)
+          cd "${ORDERS_DIR}"
+          for date in $(ls orders-*.tsv 2>/dev/null | grep -v current-season | sed 's/orders-\([0-9-]*\)-.*/\1/' | sort -u); do
+            latest=$(ls -t orders-${date}-*.tsv 2>/dev/null | head -1)
+            for f in orders-${date}-*.tsv; do
+              if [ "$f" != "$latest" ]; then
+                rm -f "$f"
+              fi
+            done
+          done
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Daily data update $(date +%Y-%m-%d)"
+            git push
+          fi

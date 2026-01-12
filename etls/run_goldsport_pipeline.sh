@@ -4,11 +4,15 @@
 
 set -e
 
+# Get script directory for relative paths
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BASE_DIR="$(dirname "${SCRIPT_DIR}")"
+
 # Configuration
-ORDERS_DIR="/home/hylmarj/aps-goldsport-analytics/goldsport__orders___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
-PHONE_NUMBERS_DIR="/home/hylmarj/aps-goldsport-analytics/goldsport__phone_numbers___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
+ORDERS_DIR="${BASE_DIR}/goldsport__orders___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
+PHONE_NUMBERS_DIR="${BASE_DIR}/goldsport__phone_numbers___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
 EXPORT_URL="http://kurzy.classicskischool.cz/export/export-tsv-2026.php"
-ETL_SCRIPT="/home/hylmarj/aps-goldsport-analytics/etls/etl__phone_numbers.py"
+ETL_SCRIPT="${SCRIPT_DIR}/etl__phone_numbers.py"
 CURRENT_SEASON_ORDERS="${ORDERS_DIR}/orders-current-season.tsv"
 CURRENT_SEASON_PHONES="${PHONE_NUMBERS_DIR}/phone_numbers-current-season.csv"
 

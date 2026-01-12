@@ -281,7 +281,9 @@ def process_file(input_path: str) -> None:
             now = datetime.now()
             date_range = f"{now.strftime('%Y-%m-%d')}_{now.strftime('%Y-%m-%d')}"
         
-        output_base = Path("/home/hylmarj/aps-goldsport-analytics/goldsport__phone_numbers___gsp_dataset___hand_increment/method=hand_increment/source=goldsport")
+        # Use path relative to script location for portability
+        script_dir = Path(__file__).parent.parent
+        output_base = script_dir / "goldsport__phone_numbers___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
         output_base.mkdir(parents=True, exist_ok=True)
         
         # Save valid numbers

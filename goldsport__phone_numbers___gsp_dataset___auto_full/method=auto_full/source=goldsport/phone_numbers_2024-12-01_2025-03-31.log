@@ -1,0 +1,22 @@
+Processing completed at: 2025-03-19 13:23:56
+Input file: /home/hylmarj/_scratch/staging-goldsport-analytics/goldsport__orders___gsp_dataset___auto_full/method=auto_full/source=goldsport/orders_2024-12-01_2025-03-31.tsv
+Date range: 2024-12-01_2025-03-31
+Total unique orders processed: 934
+Total valid phone numbers found: 1004
+Total unique phone numbers: 676
+Total invalid phone numbers: 28
+
+Phone numbers by country:
+  CZ: 492
+  DE: 289
+  PL: 207
+  NL: 12
+  IL: 2
+  IE: 1
+  AT: 1
+
+Phone numbers by language:
+  cs: 492
+  de: 290
+  pl: 207
+  en: 15

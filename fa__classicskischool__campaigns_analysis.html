@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 5px;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+        .campaign-selector {
+            min-width: 300px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
+        .grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            height: calc(100vh - 100px);
+            max-height: 900px;
+        }
+        .section {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .chart-container {
+            flex: 1;
+            position: relative;
+            min-height: 0;
+        }
+        h1 {
+            color: #333;
+            margin: 0;
+            font-size: 1.4em;
+        }
+        h3 {
+            color: #666;
+            margin: 0 0 5px 0;
+            font-size: 1em;
+            text-align: center;
+        }
+        .chart-tooltip {
+            position: absolute;
+            padding: 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            pointer-events: none;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 9999;
+        }
+        .chart-tooltip.visible {
+            opacity: 1;
+        }
+        .legend text {
+            font-size: 11px;
+        }
+        .domain, .tick line {
+            stroke: #ccc;
+        }
+        .tick text {
+            fill: #666;
+            font-size: 10px;
+        }
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 2px 0;
+        }
+        .tooltip-value {
+            margin-left: 10px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 id="campaignTitle">Campaign Dashboard</h1>
+            <select id="campaignSelector" class="campaign-selector">
+                <option value="">Loading campaigns...</option>
+            </select>
+        </div>
+        <div class="grid">
+            <div class="section">
+                <div class="card">
+                    <h3>Daily Reach by Language</h3>
+                    <div id="reachChart" class="chart-container"></div>
+                </div>
+                <div class="card">
+                    <h3>Daily Link Clicks by Language</h3>
+                    <div id="resultsChart" class="chart-container"></div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="card">
+                    <h3>Cumulative Reach by Language</h3>
+                    <div id="reachToDateChart" class="chart-container"></div>
+                </div>
+                <div class="card">
+                    <h3>Cumulative Link Clicks by Language</h3>
+                    <div id="resultsToDateChart" class="chart-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CAMPAIGNS = [
+            {
+                id: 'adult_ski_beginner',
+                name: 'Adult Ski Beginner',
+                path: 'goldsport__fa_adult_ski_beginner__traffic__120215321990480063___gsp_dataset___auto_full'
+            },
+            {
+                id: 'adult_ski_beginner_lookalike',
+                name: 'Adult Ski Beginner Lookalike',
+                path: 'goldsport__fa_adult_ski_beginner_lookalike__traffic__120216231043180063___gsp_dataset___auto_full'
+            },
+            {
+                id: 'families_with_children',
+                name: 'Families With Children',
+                path: 'goldsport__fa_families_with_children__traffic__120215323827970063___gsp_dataset___auto_full'
+            },
+            {
+                id: 'families_with_children_lookalike',
+                name: 'Families With Children Lookalike',
+                path: 'goldsport__fa_families_with_children_lookalike__traffic__120216689702520063___gsp_dataset___auto_full'
+            },
+            {
+                id: 'classicskischool_harrachov_pl',
+                name: 'Classic Ski School Harrachov Poland',
+                path: 'goldsport__fa_classicskischool_harrachov_pl__traffic__120217061278450063___gsp_dataset___auto_full'
+            }
+        ];
+
+        async function loadCSV(basePath, filename) {
+            try {
+                const fullPath = `${basePath}/method=auto_full/source=goldsport/${filename}`;
+                console.log('Loading data from:', fullPath);
+                
+                const response = await fetch(fullPath);
+                if (!response.ok) {
+                    console.error(`Failed to load data from ${fullPath}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                
+                return new Promise(resolve => {
+                    Papa.parse(text, {
+                        header: true,
+                        dynamicTyping: true,
+                        skipEmptyLines: true,
+                        complete: result => resolve(result.data)
+                    });
+                });
+            } catch (error) {
+                console.error(`Error loading ${filename}:`, error);
+                return [];
+            }
+        }
+
+        function extractCampaignName(data) {
+            if (data && data.length > 0 && data[0].name) {
+                const name = data[0].name;
+                return name.trim();
+            }
+            return 'Campaign Dashboard';
+        }
+
+        function getLanguageMetric(ads, lang, metric) {
+            const langAd = ads.find(ad => ad.name.endsWith(`__${lang}`));
+            return langAd ? langAd[metric] : 0;
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+            const monthDay = date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric' 
+            });
+            return `${dayOfWeek} ${monthDay}`;
+        }
+
+        function formatNumber(num) {
+            return num.toLocaleString(undefined, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
+        }
+
+        function createChart(data, containerId, metrics, title) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            container.style.position = 'relative';
+
+            const margin = { top: 20, right: 160, bottom: 60, left: 60 };
+            const width = container.clientWidth - margin.left - margin.right;
+            const height = container.clientHeight - margin.top - margin.bottom;
+
+            const svg = d3.select(container)
+                .append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const xScale = d3.scalePoint()
+                .domain(data.map(d => d.date))
+                .range([0, width]);
+
+            const yScale = d3.scaleLinear()
+                .domain([0, d3.max(data, d => 
+                    Math.max(...metrics.map(m => d[m.key]))
+                )])
+                .range([height, 0])
+                .nice();
+
+            svg.append('g')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(xScale))
+                .selectAll('text')
+                .style('text-anchor', 'end')
+                .attr('dx', '-.8em')
+                .attr('dy', '.15em')
+                .attr('transform', 'rotate(-45)');
+
+            const yAxis = d3.axisLeft(yScale)
+                .tickFormat(d => formatNumber(d));
+            svg.append('g')
+                .call(yAxis);
+
+            const line = d3.line()
+                .x(d => xScale(d.date))
+                .y(d => yScale(d.value))
+                .defined(d => !isNaN(d.value));
+
+            metrics.forEach(metric => {
+                const lineData = data.map(d => ({
+                    date: d.date,
+                    value: d[metric.key],
+                    rawDate: d.rawDate
+                })).filter(d => d.value !== null && d.value !== undefined);
+
+                svg.append('path')
+                    .datum(lineData)
+                    .attr('fill', 'none')
+                    .attr('stroke', metric.color)
+                    .attr('stroke-width', metric.key.includes('campaign') ? 3 : 2)
+                    .attr('d', line);
+
+                svg.selectAll(`dot-${metric.key}`)
+                    .data(lineData)
+                    .enter()
+                    .append('circle')
+                    .attr('cx', d => xScale(d.date))
+                    .attr('cy', d => yScale(d.value))
+                    .attr('r', 3)
+                    .attr('fill', metric.color)
+                    .attr('stroke', 'white')
+                    .attr('stroke-width', 1);
+            });
+
+            const legend = svg.append('g')
+                .attr('class', 'legend')
+                .attr('transform', `translate(${width + 10}, 0)`);
+
+            metrics.forEach((metric, i) => {
+                const legendItem = legend.append('g')
+                    .attr('transform', `translate(0,${i * 20})`);
+
+                legendItem.append('line')
+                    .attr('x1', 0)
+                    .attr('x2', 20)
+                    .attr('stroke', metric.color)
+                    .attr('stroke-width', metric.key.includes('campaign') ? 3 : 2);
+
+                legendItem.append('text')
+                    .attr('x', 30)
+                    .attr('y', 4)
+                    .text(metric.name);
+            });
+
+            const tooltip = d3.select(container)
+                .append('div')
+                .attr('class', 'chart-tooltip');
+
+            svg.append('rect')
+                .attr('width', width)
+                .attr('height', height)
+                .style('fill', 'none')
+                .style('pointer-events', 'all')
+                .on('mouseover', () => tooltip.classed('visible', true))
+                .on('mouseout', () => tooltip.classed('visible', false))
+                .on('mousemove', function(event) {
+                    const [mouseX] = d3.pointer(event);
+                    const step = width / (data.length - 1);
+                    const index = Math.min(
+                        data.length - 1,
+                        Math.max(0, Math.floor(mouseX / step))
+                    );
+                    
+                    const d = data[index];
+                    const containerRect = container.getBoundingClientRect();
+                    
+                    tooltip
+                        .html(`
+                            <strong>${d.date}</strong>
+                            ${metrics.map(metric => `
+                                <div class="tooltip-row">
+                                    <span>${metric.name}:</span>
+                                    <span class="tooltip-value">
+                                        ${formatNumber(d[metric.key])}
+                                    </span>
+                                </div>
+                            `).join('')}
+                        `)
+                        .style('left', `${event.clientX - containerRect.left + 10}px`)
+                        .style('top', `${event.clientY - containerRect.top - 10}px`);
+                });
+        }
+
+        async function loadCampaignData(campaignPath) {
+            const [adsDays, adsToDate, campaignDays, campaignToDate] = await Promise.all([
+                loadCSV(campaignPath, 'ads_days.csv'),
+                loadCSV(campaignPath, 'ads_to_date.csv'),
+                loadCSV(campaignPath, 'campaign_days.csv'),
+                loadCSV(campaignPath, 'campaign_to_date.csv')
+            ]);
+            
+            const dates = _.uniq([
+                ...adsDays.map(ad => ad.date_start),
+                ...campaignDays.map(day => day.date_start),
+                ...campaignToDate.map(day => day.date_stop)
+            ]).sort();
+
+            const campaignDaysLookup = _.keyBy(campaignDays, 'date_start');
+            const campaignToDateSorted = _.sortBy(campaignToDate, 'date_stop');
+
+            const dailyData = dates.map(date => {
+                const dayAds = adsDays.filter(ad => ad.date_start === date);
+                const campaignData = campaignDaysLookup[date] || {};
+
+                return {
+                    date: formatDate(date),
+                    rawDate: date,
+                    cs_reach: getLanguageMetric(dayAds, 'cs', 'reach'),
+                    cs_results: getLanguageMetric(dayAds, 'cs', 'results'),
+                    en_reach: getLanguageMetric(dayAds, 'en', 'reach'),
+                    en_results: getLanguageMetric(dayAds, 'en', 'results'),
+                    pl_reach: getLanguageMetric(dayAds, 'pl', 'reach'),
+                    pl_results: getLanguageMetric(dayAds, 'pl', 'results'),
+                    de_reach: getLanguageMetric(dayAds, 'de', 'reach'),
+                    de_results: getLanguageMetric(dayAds, 'de', 'results'),
+                    campaign_reach: campaignData.reach || 0,
+                    campaign_results: campaignData.results || 0
+                };
+            });
+
+            const cumulativeData = dates.map(date => {
+                const campaignData = campaignToDateSorted.find(d => d.date_stop === date) || {};
+                const toDateAds = adsToDate.filter(ad => ad.date_stop === date);
+
+                return {
+                    date: formatDate(date),
+                    rawDate: date,
+                    cs_reach: getLanguageMetric(toDateAds, 'cs', 'reach'),
+                    cs_results: getLanguageMetric(toDateAds, 'cs', 'results'),
+                    en_reach: getLanguageMetric(toDateAds, 'en', 'reach'),
+                    en_results: getLanguageMetric(toDateAds, 'en', 'results'),
+                    pl_reach: getLanguageMetric(toDateAds, 'pl', 'reach'),
+                    pl_results: getLanguageMetric(toDateAds, 'pl', 'results'),
+                    de_reach: getLanguageMetric(toDateAds, 'de', 'reach'),
+                    de_results: getLanguageMetric(toDateAds, 'de', 'results'),
+                    campaign_reach: campaignData.reach || 0,
+                    campaign_results: campaignData.results || 0
+                };
+            });
+
+            return { dailyData, cumulativeData };
+        }
+
+        async function initialize() {
+            try {
+                const selector = document.getElementById('campaignSelector');
+                selector.innerHTML = CAMPAIGNS
+                    .map(campaign => `
+                        <option value="${campaign.path}">
+                            ${campaign.name}
+                        </option>
+                    `)
+                    .join('');
+
+                const metrics = [
+                    { key: 'campaign_reach', name: 'Campaign Total', color: '#ff0000' },
+                    { key: 'cs_reach', name: 'Czech', color: '#8884d8' },
+                    { key: 'en_reach', name: 'English', color: '#82ca9d' },
+                    { key: 'pl_reach', name: 'Polish', color: '#ffc658' },
+                    { key: 'de_reach', name: 'German', color: '#ff7300' }
+                ];
+
+                const resultMetrics = [
+                    { key: 'campaign_results', name: 'Campaign Total', color: '#ff0000' },
+                    { key: 'cs_results', name: 'Czech', color: '#8884d8' },
+                    { key: 'en_results', name: 'English', color: '#82ca9d' },
+                    { key: 'pl_results', name: 'Polish', color: '#ffc658' },
+                    { key: 'de_results', name: 'German', color: '#ff7300' }
+                ];
+
+                async function updateCharts(campaignPath) {
+                    const selected = CAMPAIGNS.find(c => c.path === campaignPath);
+                    if (selected) {
+                        document.getElementById('campaignTitle').textContent = selected.name;
+                    }
+                    
+                    const { dailyData, cumulativeData } = await loadCampaignData(campaignPath);
+                    
+                    createChart(dailyData, 'reachChart', metrics, 'Daily Reach');
+                    createChart(dailyData, 'resultsChart', resultMetrics, 'Daily Results');
+                    createChart(cumulativeData, 'reachToDateChart', metrics, 'Cumulative Reach');
+                    createChart(cumulativeData, 'resultsToDateChart', resultMetrics, 'Cumulative Results');
+                }
+
+                // Set up event listener for campaign selection
+                selector.addEventListener('change', (e) => {
+                    updateCharts(e.target.value);
+                });
+
+                // Load initial campaign
+                if (CAMPAIGNS.length > 0) {
+                    selector.value = CAMPAIGNS[0].path;
+                    updateCharts(CAMPAIGNS[0].path);
+                }
+
+                // Handle window resizing
+                window.addEventListener('resize', _.debounce(() => {
+                    updateCharts(selector.value);
+                }, 250));
+
+            } catch (error) {
+                console.error('Error initializing dashboard:', error);
+                document.getElementById('campaignTitle').textContent = 'Error loading campaigns';
+            }
+        }
+
+        initialize();
+    </script>
+</body>
+</html>

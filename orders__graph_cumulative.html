@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Analysis by Category</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .chart-tooltip {
+            position: absolute;
+            padding: 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            pointer-events: none;
+            font-size: 12px;
+            display: none;
+            z-index: 1000;
+        }
+        .chart-container {
+            height: 400px !important;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-4 max-w-full">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 id="mainTitle" class="text-2xl font-bold">Orders Analysis by Level</h1>
+                <div class="flex gap-6 mt-2 flex-wrap">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #f97316"></div>
+                        <span>2023 Dec to 2024 Mar real values</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 border border-orange-500" style="background-color: transparent"></div>
+                        <span>2023 Dec to 2024 Mar real values + 20% weather conditions buffer</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #22c55e"></div>
+                        <span>2024 Dec to 2025 Mar real values</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #3b82f6"></div>
+                        <span>2019 Dec to 2020 Mar real values</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #a855f7"></div>
+                        <span>2025 Dec to 2026 Mar real values (current)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <select id="metricSelector" class="p-2 border rounded">
+                    <option value="revenue">Revenue (excluding VAT)</option>
+                    <option value="orders">Number of Orders</option>
+                </select>
+                <select id="timeSelector" class="p-2 border rounded">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                </select>
+            </div>
+        </div>
+        <div id="charts-container"></div>
+    </div>
+
+    <script>
+        const TIME_PERIODS = {
+            period1: {
+                start: new Date('2023-12-01'),
+                end: new Date('2024-03-31'),
+                label: '2023 Dec - 2024 Mar'
+            },
+            period2: {
+                start: new Date('2024-12-01'),
+                end: new Date('2025-03-31'),
+                label: '2024 Dec - 2025 Mar'
+            },
+            period3: {
+                start: new Date('2019-12-01'),
+                end: new Date('2020-03-31'),
+                label: '2019 Dec - 2020 Mar'
+            },
+            period4: {
+                start: new Date('2025-12-01'),
+                end: new Date('2026-03-31'),
+                label: '2025 Dec - 2026 Mar'
+            }
+        };
+
+        const COLORS = {
+            period1: '#f97316',
+            period2: '#22c55e',
+            period3: '#3b82f6',
+            period4: '#a855f7'
+        };
+
+        function normalizeDate(date, period) {
+            const d = new Date(date);
+            if (period === 'period2') {
+                d.setFullYear(d.getFullYear() - 1);
+            } else if (period === 'period3') {
+                d.setFullYear(d.getMonth() >= 11 ? 2023 : 2024);
+            } else if (period === 'period4') {
+                d.setFullYear(d.getFullYear() - 2);
+            }
+            return d;
+        }
+
+        async function loadData() {
+            try {
+                const [file2024, file2025, file2020, file2526] = await Promise.all([
+                    fetch('goldsport__orders___gsp_dataset___auto_full/method=auto_full/source=goldsport/orders_2023-12-01_2024-03-31.tsv').then(r => r.text()),
+                    fetch('goldsport__orders___gsp_dataset___auto_full/method=auto_full/source=goldsport/orders_2024-12-01_2025-03-31.tsv').then(r => r.text()),
+                    fetch('goldsport__orders___gsp_dataset___auto_full/method=auto_full/source=goldsport/orders_2019-12-01_2020-03-31.tsv').then(r => r.text()),
+                    fetch('goldsport__orders___gsp_dataset___hand_increment/method=hand_increment/source=goldsport/orders-current-season.tsv').then(r => r.text())
+                ]);
+
+                const parseConfig = {
+                    header: true,
+                    skipEmptyLines: true,
+                    delimiter: '\t',
+                    dynamicTyping: true
+                };
+
+                return {
+                    period1: Papa.parse(file2024, parseConfig).data,
+                    period2: Papa.parse(file2025, parseConfig).data,
+                    period3: Papa.parse(file2020, parseConfig).data,
+                    period4: Papa.parse(file2526, parseConfig).data
+                };
+            } catch (error) {
+                console.error('Error loading data:', error);
+                return { period1: [], period2: [], period3: [], period4: [] };
+            }
+        }
+
+        function createChart(data, containerId, selectedMetric, level) {
+            const container = document.getElementById(containerId);
+            const containerRect = container.getBoundingClientRect();
+            d3.select(`#${containerId}`).selectAll('*').remove();
+
+            const margin = {top: 20, right: 60, bottom: 30, left: 60};
+            const width = containerRect.width - margin.left - margin.right;
+            const height = containerRect.height - margin.top - margin.bottom;
+
+            // Create SVG
+            const svg = d3.select(`#${containerId}`)
+                .append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            // Create tooltip div specific to this chart
+            const tooltip = d3.select(`#${containerId}`)
+                .append('div')
+                .attr('class', 'chart-tooltip')
+                .style('position', 'absolute')
+                .style('opacity', 0);
+
+            // Calculate domains
+            const allDates = [...data.period1, ...data.period2, ...data.period3, ...data.period4]
+                .map(d => d.normalizedDate);
+
+            const xDomain = [
+                d3.min(allDates) || new Date('2023-12-01'),
+                d3.max(allDates) || new Date('2024-03-31')
+            ];
+
+            const maxPeriod1 = data.period1.length ? d3.max(data.period1, d => d.value) * 1.2 : 0;
+            const maxPeriod2 = data.period2.length ? d3.max(data.period2, d => d.value) : 0;
+            const maxPeriod3 = data.period3.length ? d3.max(data.period3, d => d.value) : 0;
+            const maxPeriod4 = data.period4.length ? d3.max(data.period4, d => d.value) : 0;
+            const maxValue = Math.max(maxPeriod1, maxPeriod2, maxPeriod3, maxPeriod4);
+
+            const x = d3.scaleTime()
+                .domain(xDomain)
+                .range([0, width]);
+
+            const y = d3.scaleLinear()
+                .domain([0, maxValue])
+                .nice()
+                .range([height, 0]);
+
+            const line = d3.line()
+                .x(d => x(d.normalizedDate))
+                .y(d => y(d.value))
+                .defined(d => !isNaN(d.value));
+
+            // Draw axes
+            svg.append('g')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(x)
+                    .tickFormat(d3.timeFormat('%b %d'))
+                    .ticks(d3.timeDay.every(7)));
+
+            svg.append('g')
+                .call(d3.axisLeft(y)
+                    .tickFormat(d => {
+                        if (selectedMetric === 'revenue') {
+                            const thousands = d / 1000;
+                            return `${thousands.toFixed(0)} K Kč`;
+                        }
+                        return d.toFixed(0);
+                    }));
+
+            // Add buffer data for period1
+            const bufferData = data.period1.map(d => ({
+                ...d,
+                value: d.value * 1.2
+            }));
+
+            // Draw buffer line
+            svg.append('path')
+                .datum(bufferData)
+                .attr('fill', 'none')
+                .attr('stroke', COLORS.period1)
+                .attr('stroke-width', 1)
+                .attr('stroke-dasharray', '4,4')
+                .attr('d', line);
+
+            // Draw lines and points for each period
+            ['period1', 'period2', 'period3', 'period4'].forEach(period => {
+                if (!data[period] || !data[period].length) return;
+
+                svg.append('path')
+                    .datum(data[period])
+                    .attr('fill', 'none')
+                    .attr('stroke', COLORS[period])
+                    .attr('stroke-width', 2)
+                    .attr('d', line);
+
+                svg.selectAll(`dot-${period}`)
+                    .data(data[period])
+                    .enter()
+                    .append('circle')
+                    .attr('cx', d => x(d.normalizedDate))
+                    .attr('cy', d => y(d.value))
+                    .attr('r', 3)
+                    .attr('fill', COLORS[period])
+                    .attr('stroke', 'white')
+                    .attr('stroke-width', 1);
+            });
+
+            // Tooltip handling
+            const bisectDate = d3.bisector(d => d.normalizedDate).left;
+            
+            const tooltipOverlay = svg.append('rect')
+                .attr('width', width)
+                .attr('height', height)
+                .style('fill', 'none')
+                .style('pointer-events', 'all');
+
+            tooltipOverlay
+                .on('mouseover', () => {
+                    tooltip.style('display', 'block')
+                        .style('opacity', 1);
+                })
+                .on('mouseout', () => {
+                    tooltip.style('display', 'none')
+                        .style('opacity', 0);
+                })
+                .on('mousemove', function(event) {
+                    const [mouseX] = d3.pointer(event);
+                    const date = x.invert(mouseX);
+                    
+                    const findClosestPoint = (periodData) => {
+                        if (!periodData.length) return null;
+                        const index = bisectDate(periodData, date, 1);
+                        if (index >= periodData.length) return periodData[periodData.length - 1];
+                        const d0 = periodData[index - 1];
+                        const d1 = periodData[index];
+                        return date - d0.normalizedDate > d1.normalizedDate - date ? d1 : d0;
+                    };
+
+                    const p1 = findClosestPoint(data.period1);
+                    const p2 = findClosestPoint(data.period2);
+                    const p3 = findClosestPoint(data.period3);
+                    const p4 = findClosestPoint(data.period4);
+
+                    if (p1 || p2 || p3 || p4) {
+                        const formatValue = value => {
+                            if (selectedMetric === 'revenue') {
+                                const thousands = value / 1000;
+                                return `${thousands.toFixed(0)} K Kč`;
+                            }
+                            return value.toFixed(0);
+                        };
+
+                        const bufferValue = p1 ? p1.value * 1.2 : null;
+
+                        // Update tooltip content
+                        tooltip.html(`
+                            <div class="font-bold">${date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</div>
+                            ${p1 ? `<div style="color: ${COLORS.period1}">${TIME_PERIODS.period1.label}: ${formatValue(p1.value)}</div>` : ''}
+                            ${p1 ? `<div style="color: ${COLORS.period1}">Buffer (+20%): ${formatValue(bufferValue)}</div>` : ''}
+                            ${p2 ? `<div style="color: ${COLORS.period2}">${TIME_PERIODS.period2.label}: ${formatValue(p2.value)}</div>` : ''}
+                            ${p3 ? `<div style="color: ${COLORS.period3}">${TIME_PERIODS.period3.label}: ${formatValue(p3.value)}</div>` : ''}
+                            ${p4 ? `<div style="color: ${COLORS.period4}">${TIME_PERIODS.period4.label}: ${formatValue(p4.value)}</div>` : ''}
+                        `);
+
+                        // Position tooltip with boundary checking
+                        const tooltipWidth = tooltip.node().offsetWidth;
+                        const tooltipHeight = tooltip.node().offsetHeight;
+                        
+                        let left = event.pageX - containerRect.left + 15;
+                        let top = event.pageY - containerRect.top - 10;
+
+                        // Check right boundary
+                        if (left + tooltipWidth > containerRect.width) {
+                            left = event.pageX - containerRect.left - tooltipWidth - 15;
+                        }
+
+                        // Check bottom boundary
+                        if (top + tooltipHeight > containerRect.height) {
+                            top = event.pageY - containerRect.top - tooltipHeight - 10;
+                        }
+
+                        // Ensure tooltip doesn't go off the left or top
+                        left = Math.max(0, left);
+                        top = Math.max(0, top);
+
+                        tooltip.style('left', `${left}px`)
+                            .style('top', `${top}px`)
+                            .style('display', 'block');
+                    }
+                });
+        }
+
+        // Categories configuration
+        const CATEGORIES = {
+            kids: {
+                name: 'Kids (Dětská školka)',
+                filter: (level) => level && level.toLowerCase().includes('dětská školka')
+            },
+            skis: {
+                name: 'Skis (Lyže)',
+                filter: (level) => level && level.toLowerCase().includes('lyže')
+            },
+            snowboard: {
+                name: 'Snowboard',
+                filter: (level) => level && level.toLowerCase().includes('snowboard')
+            }
+        };
+
+        function processDataForCategory(data, selectedMetric, category, timeframe) {
+            const result = {};
+            const filterFn = CATEGORIES[category].filter;
+
+            ['period1', 'period2', 'period3', 'period4'].forEach(period => {
+                const categoryData = data[period].filter(row => filterFn(row.level));
+                const periodData = categoryData.filter(row => {
+                    const date = new Date(row.date_order);
+                    return date >= TIME_PERIODS[period].start && date <= TIME_PERIODS[period].end;
+                });
+
+                const uniqueOrders = _.uniqBy(periodData, d => `${d.id_order}_${d.date_order}`);
+
+                const grouped = timeframe === 'weekly'
+                    ? _.groupBy(uniqueOrders, row => {
+                        const date = new Date(row.date_order);
+                        const weekNum = Math.ceil((date - TIME_PERIODS[period].start) / (7 * 24 * 60 * 60 * 1000));
+                        return `${date.getFullYear()}-${weekNum}`;
+                    })
+                    : _.groupBy(uniqueOrders, 'date_order');
+
+                let cumulative = 0;
+                result[period] = _(grouped)
+                    .map((orders, dateKey) => {
+                        const totalValue = selectedMetric === 'revenue'
+                            ? _.sumBy(orders, row => parseFloat(row.price_without_vat) || 0)
+                            : orders.length;
+                        cumulative += totalValue;
+
+                        const date = timeframe === 'weekly'
+                            ? new Date(orders[0].date_order)
+                            : new Date(dateKey);
+
+                        return {
+                            date,
+                            normalizedDate: normalizeDate(date, period),
+                            value: cumulative
+                        };
+                    })
+                    .sortBy('date')
+                    .value();
+            });
+
+            return result;
+        }
+
+        async function updateDashboard(metric = 'revenue', timeframe = 'daily') {
+            try {
+                const rawData = await loadData();
+                if (!rawData.period1.length && !rawData.period2.length && !rawData.period3.length) {
+                    throw new Error('No data available');
+                }
+
+                // Find the latest date in the data (from current season period4)
+                const latestDate = new Date(Math.max(
+                    ...rawData.period4.map(row => new Date(row.date_order))
+                ));
+
+                // Format date as "DD. M. YYYY"
+                const formattedDate = `${latestDate.getDate()}. ${latestDate.getMonth() + 1}. ${latestDate.getFullYear()}`;
+                document.getElementById('mainTitle').textContent = `Orders Analysis by Category | Latest data: ${formattedDate}`;
+
+                // Clear and recreate chart containers
+                const chartsContainer = document.getElementById('charts-container');
+                chartsContainer.innerHTML = '';
+
+                // Create a chart for each category (kids, skis, snowboard)
+                ['kids', 'skis', 'snowboard'].forEach(category => {
+                    const chartWrapper = document.createElement('div');
+                    chartWrapper.className = 'bg-white rounded-lg shadow p-4 mb-4';
+
+                    const title = document.createElement('h2');
+                    title.className = 'text-lg font-bold mb-2';
+                    title.textContent = `${CATEGORIES[category].name} | ${metric === 'revenue' ? 'Revenue (excluding VAT)' : 'Number of Orders'}`;
+
+                    const chartDiv = document.createElement('div');
+                    chartDiv.id = `chart-${category}`;
+                    chartDiv.className = 'chart-container';
+
+                    chartWrapper.appendChild(title);
+                    chartWrapper.appendChild(chartDiv);
+                    chartsContainer.appendChild(chartWrapper);
+
+                    const processedData = processDataForCategory(rawData, metric, category, timeframe);
+                    createChart(processedData, chartDiv.id, metric, category);
+                });
+            } catch (error) {
+                console.error('Error updating dashboard:', error);
+                document.getElementById('mainTitle').textContent = 'Error loading data';
+            }
+        }
+
+        // Initialize the dashboard
+        async function initialize() {
+            try {
+                const metricSelector = document.getElementById('metricSelector');
+                const timeSelector = document.getElementById('timeSelector');
+                
+                await updateDashboard(metricSelector.value, timeSelector.value);
+                
+                metricSelector.addEventListener('change', (e) => 
+                    updateDashboard(e.target.value, timeSelector.value));
+                    
+                timeSelector.addEventListener('change', (e) => 
+                    updateDashboard(metricSelector.value, e.target.value));
+
+                window.addEventListener('resize', _.debounce(() => {
+                    updateDashboard(metricSelector.value, timeSelector.value);
+                }, 250));
+
+            } catch (error) {
+                console.error('Failed to initialize dashboard:', error);
+                document.getElementById('mainTitle').textContent = 'Error: Failed to load data';
+            }
+        }
+
+        // Ensure DOM is fully loaded before initializing
+        document.addEventListener('DOMContentLoaded', initialize);
+    </script>
+</body>
+</html>

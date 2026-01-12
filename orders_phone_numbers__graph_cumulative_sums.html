@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Numbers Analysis - Period Comparison</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .chart-tooltip {
+            position: absolute;
+            padding: 8px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            pointer-events: none;
+            font-size: 12px;
+            display: none;
+            z-index: 1000;
+        }
+        .chart-container {
+            height: 400px !important;
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto p-4 max-w-full">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 id="mainTitle" class="text-2xl font-bold">Phone Numbers Analysis</h1>
+                <div class="flex gap-6 mt-2">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #f97316"></div>
+                        <span>2023 Dec to 2024 Mar</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 border border-orange-500" style="background-color: transparent"></div>
+                        <span>2023 Dec to 2024 Mar + 20% buffer</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #22c55e"></div>
+                        <span>2024 Dec to 2025 Mar</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #3b82f6"></div>
+                        <span>2019 Dec to 2020 Mar</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #a855f7"></div>
+                        <span>2025 Dec to 2026 Mar (current)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <select id="metricSelector" class="p-2 border rounded">
+                    <option value="ALL">All Countries</option>
+                    <option value="CZ">Czech Republic</option>
+                    <option value="DE">Germany</option>
+                    <option value="PL">Poland</option>
+                </select>
+                <select id="timeSelector" class="p-2 border rounded">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                </select>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow p-4">
+            <h2 id="chartTitle" class="text-lg font-bold mb-2">Cumulative Orders by Country</h2>
+            <div id="chart-phones" class="chart-container"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+
+    <script>
+        const TIME_PERIODS = {
+            period1: {
+                start: new Date('2023-12-01'),
+                end: new Date('2024-03-31'),
+                label: '2023 Dec - 2024 Mar'
+            },
+            period2: {
+                start: new Date('2024-12-01'),
+                end: new Date('2025-03-31'),
+                label: '2024 Dec - 2025 Mar'
+            },
+            period3: {
+                start: new Date('2019-12-01'),
+                end: new Date('2020-03-31'),
+                label: '2019 Dec - 2020 Mar'
+            },
+            period4: {
+                start: new Date('2025-12-01'),
+                end: new Date('2026-03-31'),
+                label: '2025 Dec - 2026 Mar'
+            }
+        };
+
+        const COLORS = {
+            period1: '#f97316',
+            period2: '#22c55e',
+            period3: '#3b82f6',
+            period4: '#a855f7'
+        };
+
+        function normalizeDate(date, period) {
+            const d = new Date(date);
+            if (period === 'period2') {
+                d.setFullYear(d.getFullYear() - 1);
+            } else if (period === 'period3') {
+                d.setFullYear(d.getMonth() >= 11 ? 2023 : 2024);
+            } else if (period === 'period4') {
+                d.setFullYear(d.getFullYear() - 2);
+            }
+            return d;
+        }
+
+        function processData(data, timeframe, selectedCountry) {
+            const result = {};
+
+            ['period1', 'period2', 'period3', 'period4'].forEach(period => {
+                const periodData = data[period].filter(row => {
+                    const date = new Date(row.date_order);
+                    return date >= TIME_PERIODS[period].start && 
+                           date <= TIME_PERIODS[period].end && 
+                           (selectedCountry === 'ALL' || row.country === selectedCountry);
+                });
+
+                const grouped = timeframe === 'weekly'
+                    ? _.groupBy(periodData, row => {
+                        const date = new Date(row.date_order);
+                        const weekNum = Math.ceil((date - TIME_PERIODS[period].start) / (7 * 24 * 60 * 60 * 1000));
+                        return `${date.getFullYear()}-${weekNum}`;
+                    })
+                    : _.groupBy(periodData, 'date_order');
+
+                let cumulative = 0;
+                result[period] = _(grouped)
+                    .map((orders, dateKey) => {
+                        cumulative += orders.length;
+                        const date = timeframe === 'weekly'
+                            ? new Date(orders[0].date_order)
+                            : new Date(dateKey);
+
+                        return {
+                            date,
+                            normalizedDate: normalizeDate(date, period),
+                            value: cumulative
+                        };
+                    })
+                    .sortBy('date')
+                    .value();
+            });
+
+            return result;
+        }
+
+        function createChart(data, containerId) {
+            const container = document.getElementById(containerId);
+            const containerRect = container.getBoundingClientRect();
+            d3.select(`#${containerId}`).selectAll('*').remove();
+
+            const margin = {top: 20, right: 60, bottom: 30, left: 60};
+            const width = containerRect.width - margin.left - margin.right;
+            const height = containerRect.height - margin.top - margin.bottom;
+
+            const svg = d3.select(`#${containerId}`)
+                .append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+
+            const tooltip = d3.select(`#${containerId}`)
+                .append('div')
+                .attr('class', 'chart-tooltip');
+
+            const bufferData = data.period1.map(d => ({
+                ...d,
+                value: d.value * 1.2
+            }));
+
+            const allDates = [
+                ...data.period1.map(d => d.normalizedDate),
+                ...data.period2.map(d => d.normalizedDate),
+                ...data.period3.map(d => d.normalizedDate),
+                ...data.period4.map(d => d.normalizedDate)
+            ];
+
+            const x = d3.scaleTime()
+                .domain([d3.min(allDates), d3.max(allDates)])
+                .range([0, width]);
+
+            const maxValue = d3.max([
+                ...data.period1.map(d => d.value),
+                ...data.period2.map(d => d.value),
+                ...data.period3.map(d => d.value),
+                ...data.period4.map(d => d.value),
+                ...bufferData.map(d => d.value)
+            ]);
+
+            const y = d3.scaleLinear()
+                .domain([0, maxValue])
+                .nice()
+                .range([height, 0]);
+
+            svg.append('g')
+                .attr('transform', `translate(0,${height})`)
+                .call(d3.axisBottom(x)
+                    .tickFormat(d3.timeFormat('%b %d'))
+                    .ticks(d3.timeDay.every(7)));
+
+            svg.append('g')
+                .call(d3.axisLeft(y)
+                    .tickFormat(d3.format(',.0f')));
+
+            const line = d3.line()
+                .x(d => x(d.normalizedDate))
+                .y(d => y(d.value))
+                .defined(d => !isNaN(d.value));
+
+            ['period1', 'period2', 'period3', 'period4'].forEach(period => {
+                if (!data[period] || !data[period].length) return;
+
+                svg.append('path')
+                    .datum(data[period])
+                    .attr('fill', 'none')
+                    .attr('stroke', COLORS[period])
+                    .attr('stroke-width', 2)
+                    .attr('d', line);
+
+                svg.selectAll(`dot-${period}`)
+                    .data(data[period])
+                    .enter()
+                    .append('circle')
+                    .attr('cx', d => x(d.normalizedDate))
+                    .attr('cy', d => y(d.value))
+                    .attr('r', 3)
+                    .attr('fill', COLORS[period])
+                    .attr('stroke', 'white')
+                    .attr('stroke-width', 1);
+            });
+
+            svg.append('path')
+                .datum(bufferData)
+                .attr('fill', 'none')
+                .attr('stroke', COLORS.period1)
+                .attr('stroke-width', 1)
+                .attr('stroke-dasharray', '4,4')
+                .attr('d', line);
+
+            const bisectDate = d3.bisector(d => d.normalizedDate).left;
+            
+            const tooltipOverlay = svg.append('rect')
+                .attr('width', width)
+                .attr('height', height)
+                .style('fill', 'none')
+                .style('pointer-events', 'all');
+
+            tooltipOverlay
+                .on('mouseover', () => tooltip.style('display', 'block'))
+                .on('mouseout', () => tooltip.style('display', 'none'))
+                .on('mousemove', function(event) {
+                    const [mouseX] = d3.pointer(event);
+                    const date = x.invert(mouseX);
+                    
+                    const findClosestPoint = (periodData) => {
+                        if (!periodData.length) return null;
+                        const index = bisectDate(periodData, date, 1);
+                        if (index >= periodData.length) return periodData[periodData.length - 1];
+                        if (index === 0) return periodData[0];
+                        const d0 = periodData[index - 1];
+                        const d1 = periodData[index];
+                        return date - d0.normalizedDate > d1.normalizedDate - date ? d1 : d0;
+                    };
+
+                    const p1 = findClosestPoint(data.period1);
+                    const p2 = findClosestPoint(data.period2);
+                    const p3 = findClosestPoint(data.period3);
+                    const p4 = findClosestPoint(data.period4);
+
+                    if (p1 || p2 || p3 || p4) {
+                        const bufferValue = p1 ? p1.value * 1.2 : null;
+
+                        tooltip.html(`
+                            <div class="font-bold">${date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</div>
+                            ${p1 ? `<div style="color: ${COLORS.period1}">${TIME_PERIODS.period1.label}: ${p1.value}</div>` : ''}
+                            ${p1 ? `<div style="color: ${COLORS.period1}">Buffer (+20%): ${Math.round(bufferValue)}</div>` : ''}
+                            ${p2 ? `<div style="color: ${COLORS.period2}">${TIME_PERIODS.period2.label}: ${p2.value}</div>` : ''}
+                            ${p3 ? `<div style="color: ${COLORS.period3}">${TIME_PERIODS.period3.label}: ${p3.value}</div>` : ''}
+                            ${p4 ? `<div style="color: ${COLORS.period4}">${TIME_PERIODS.period4.label}: ${p4.value}</div>` : ''}
+                        `);
+
+                        let left = event.pageX - containerRect.left + 15;
+                        let top = event.pageY - containerRect.top - 10;
+
+                        if (left + tooltip.node().offsetWidth > containerRect.width) {
+                            left = event.pageX - containerRect.left - tooltip.node().offsetWidth - 15;
+                        }
+
+                        if (top + tooltip.node().offsetHeight > containerRect.height) {
+                            top = event.pageY - containerRect.top - tooltip.node().offsetHeight - 10;
+                        }
+
+                        left = Math.max(0, left);
+                        top = Math.max(0, top);
+
+                        tooltip
+                            .style('left', `${left}px`)
+                            .style('top', `${top}px`)
+                            .style('display', 'block');
+                    }
+                });
+        }
+
+        async function loadData() {
+            try {
+                const [file2024, file2425, file1920, file2526] = await Promise.all([
+                    fetch('goldsport__phone_numbers___gsp_dataset___auto_full/method=auto_full/source=goldsport/phone_numbers_2023-12-01_2024-03-31.csv').then(r => r.text()),
+                    fetch('goldsport__phone_numbers___gsp_dataset___auto_full/method=auto_full/source=goldsport/phone_numbers_2024-12-01_2025-03-31.csv').then(r => r.text()),
+                    fetch('goldsport__phone_numbers___gsp_dataset___auto_full/method=auto_full/source=goldsport/phone_numbers_2019-12-01_2020-03-31.csv').then(r => r.text()),
+                    fetch('goldsport__phone_numbers___gsp_dataset___hand_increment/method=hand_increment/source=goldsport/phone_numbers-current-season.csv').then(r => r.text())
+                ]);
+
+                const parseConfig = {
+                    header: true,
+                    skipEmptyLines: true,
+                    dynamicTyping: true
+                };
+
+                return {
+                    period1: Papa.parse(file2024, parseConfig).data,
+                    period2: Papa.parse(file2425, parseConfig).data,
+                    period3: Papa.parse(file1920, parseConfig).data,
+                    period4: Papa.parse(file2526, parseConfig).data
+                };
+            } catch (error) {
+                console.error('Error loading data:', error);
+                return { period1: [], period2: [], period3: [], period4: [] };
+            }
+        }
+
+        async function updateDashboard(timeframe = 'daily', country = 'ALL') {
+            try {
+                const rawData = await loadData();
+                if (!rawData.period1.length && !rawData.period2.length && !rawData.period3.length && !rawData.period4.length) {
+                    throw new Error('No data available');
+                }
+
+                // Find the latest date in the data (from current season period4)
+                const latestDate = new Date(Math.max(
+                    ...rawData.period4.map(row => new Date(row.date_order))
+                ));
+                
+                // Format date as "DD. M. YYYY"
+                const formattedDate = `${latestDate.getDate()}. ${latestDate.getMonth() + 1}. ${latestDate.getFullYear()}`;
+                document.getElementById('mainTitle').textContent = `Phone Numbers Analysis | Latest data: ${formattedDate}`;
+
+                const processedData = processData(rawData, timeframe, country);
+                createChart(processedData, 'chart-phones');
+                
+                const countryNames = {
+                    'ALL': 'All Countries',
+                    'CZ': 'Czech Republic',
+                    'DE': 'Germany',
+                    'PL': 'Poland'
+                };
+                
+                document.getElementById('chartTitle').textContent = 
+                    `Cumulative NON-UNIQUE Phone Numbers from ${countryNames[country]}`;
+            } catch (error) {
+                console.error('Error updating dashboard:', error);
+                document.getElementById('mainTitle').textContent = 'Error loading phone number data';
+            }
+        }
+
+        async function initialize() {
+            try {
+                const timeSelector = document.getElementById('timeSelector');
+                const metricSelector = document.getElementById('metricSelector');
+                
+                await updateDashboard('daily', metricSelector.value);
+                
+                timeSelector.addEventListener('change', (e) => 
+                    updateDashboard(e.target.value, metricSelector.value));
+                metricSelector.addEventListener('change', (e) => 
+                    updateDashboard(timeSelector.value, e.target.value));
+
+                window.addEventListener('resize', _.debounce(() => {
+                    updateDashboard(timeSelector.value, metricSelector.value);
+                }, 250));
+
+            } catch (error) {
+                console.error('Failed to initialize dashboard:', error);
+                document.getElementById('mainTitle').textContent = 'Error: Failed to load data';
+            }
+        }
+
+        // Start the application
+        document.addEventListener('DOMContentLoaded', initialize);
+    </script>
+</body>
+</html>

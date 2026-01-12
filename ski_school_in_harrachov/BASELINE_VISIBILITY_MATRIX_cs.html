@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Základní Matice Viditelnosti - Classic Ski School</title>
+    <style>
+        :root {
+            --primary: #1e3a5f;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light-bg: #f8f9fa;
+            --border: #dee2e6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 14px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.5;
+            color: #212529;
+            background: #fff;
+            margin: 0;
+            padding: 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+            margin-top: 2rem;
+            font-size: 1.4rem;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            color: #495057;
+            margin-top: 1.5rem;
+            font-size: 1.15rem;
+            page-break-after: avoid;
+        }
+
+        h4 {
+            color: #6c757d;
+            margin-top: 1rem;
+            font-size: 1rem;
+            page-break-after: avoid;
+        }
+
+        .meta {
+            background: var(--light-bg);
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .meta p {
+            margin: 4px 0;
+        }
+
+        .success-banner {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .success-banner h2 {
+            color: #155724;
+            border: none;
+            margin-top: 0;
+            padding: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+            page-break-inside: avoid;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tr:nth-child(even) {
+            background: var(--light-bg);
+        }
+
+        tr:hover {
+            background: #e9ecef;
+        }
+
+        .status-success { color: #155724; font-weight: 600; }
+        .status-warning { color: #856404; font-weight: 600; }
+        .status-danger { color: #721c24; font-weight: 600; }
+
+        ul, ol {
+            margin: 12px 0;
+            padding-left: 24px;
+        }
+
+        li {
+            margin: 6px 0;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 24px 0;
+        }
+
+        .legend {
+            background: var(--light-bg);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border);
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-warning { background: #fff3cd; color: #856404; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+
+        strong {
+            color: #212529;
+        }
+
+        em {
+            color: #6c757d;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                padding: 0;
+                font-size: 11pt;
+                max-width: none;
+            }
+
+            h1 { font-size: 18pt; }
+            h2 { font-size: 14pt; margin-top: 16pt; }
+            h3 { font-size: 12pt; }
+
+            table {
+                font-size: 9pt;
+            }
+
+            th, td {
+                padding: 6px 8px;
+            }
+
+            .success-banner {
+                border: 2px solid #28a745;
+                background: #f0fff0;
+            }
+
+            .meta {
+                background: #f5f5f5;
+            }
+
+            @page {
+                margin: 1.5cm;
+                size: A4 landscape;
+            }
+
+            h2, h3, h4 {
+                page-break-after: avoid;
+            }
+
+            table, .success-banner, .meta {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Základní Matice Viditelnosti - Classic Ski School</h1>
+
+<div class="meta">
+    <p><strong>Datum:</strong> 22. října 2025 (PŘED opravami technického SEO)</p>
+    <p><strong>Aktualizováno:</strong> 7. ledna 2026 (Měření týden 10 - PO technických opravách)</p>
+    <p><strong>Účel:</strong> Základní měření pro sledování zlepšení po implementaci</p>
+</div>
+
+<div class="success-banner">
+    <h2>VÝSLEDKY MĚŘENÍ TÝDEN 10 (7. ledna 2026)</h2>
+    <h3>Shrnutí: TECHNICKÉ OPRAVY ÚSPĚŠNÉ!</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Trh</th>
+                <th>Základ (říjen 2025)</th>
+                <th>Týden 10 (leden 2026)</th>
+                <th>Změna</th>
+                <th>Stav</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Německé Google AI</strong></td>
+                <td class="status-danger">NEUVEDENO</td>
+                <td class="status-success"><strong>#2 ze 4</strong></td>
+                <td><strong>0% &rarr; 100%</strong></td>
+                <td><span class="badge badge-success">CÍL SPLNĚN</span></td>
+            </tr>
+            <tr>
+                <td><strong>Polské Google AI</strong></td>
+                <td class="status-warning">Slabá zmínka</td>
+                <td class="status-success"><strong>#1 z 5</strong></td>
+                <td><strong>Slabé &rarr; #1</strong></td>
+                <td><span class="badge badge-success">CÍL PŘEKONÁN</span></td>
+            </tr>
+            <tr>
+                <td><strong>Anglické Google AI</strong></td>
+                <td>#2 z 6</td>
+                <td class="status-success"><strong>#1 z 5</strong></td>
+                <td><strong>#2 &rarr; #1</strong></td>
+                <td><span class="badge badge-success">ZLEPŠENO</span></td>
+            </tr>
+            <tr>
+                <td><strong>České Google AI</strong></td>
+                <td>#1 ze 4</td>
+                <td class="status-success"><strong>#1 z 5</strong></td>
+                <td>Udrženo</td>
+                <td><span class="badge badge-success">VÝBORNÉ</span></td>
+            </tr>
+            <tr>
+                <td><strong>Počet recenzí</strong></td>
+                <td>47</td>
+                <td>49</td>
+                <td>+2</td>
+                <td><span class="badge badge-warning">Roste</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>Klíčové Úspěchy</h4>
+    <ol>
+        <li><strong>Krize německého Google AI VYŘEŠENA:</strong> Z 0% viditelnosti na pozici #2 s úplnými detaily</li>
+        <li><strong>Polské Google AI TRANSFORMOVÁNO:</strong> Ze slabé zmínky na pozici #1</li>
+        <li><strong>Anglický trh ZLEPŠEN:</strong> Posun z #2 na #1 pozici</li>
+        <li><strong>Český trh UDRŽEN:</strong> Silná pozice #1 zachována</li>
+        <li><strong>Všechny kritické technické SEO problémy opraveny:</strong> Meta tagy, hreflang, Schema.org fungují</li>
+    </ol>
+</div>
+
+<h3>Detailní výsledky týdne 10</h3>
+
+<h4>Německý trh (Dotaz: "Skischule in Harrachov")</h4>
+<table>
+    <thead>
+        <tr><th>Vyhledávač</th><th>Základ</th><th>Týden 10</th><th>Detaily</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Google AI</strong></td>
+            <td class="status-danger">NEUVEDENO</td>
+            <td class="status-success"><strong>#2 ze 4</strong></td>
+            <td>4.8★ (49 recenzí), soukromý cvičný svah, vícejazyční instruktoři, hodiny 08:00-16:30</td>
+        </tr>
+        <tr>
+            <td><strong>Bing AI</strong></td>
+            <td>#1</td>
+            <td class="status-success"><strong>#1</strong></td>
+            <td>Založeno 1991, hodnocení 4.8/5, ceny od 850 CZK, adresa + telefon</td>
+        </tr>
+        <tr>
+            <td><strong>Perplexity</strong></td>
+            <td>N/A</td>
+            <td class="status-success"><strong>#1</strong></td>
+            <td>"Jedna z největších a nejlépe hodnocených (4.8/5)", viditelná značka Brumíkova</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Polský trh (Dotaz: "szkoła narciarska w Harrachowie")</h4>
+<table>
+    <thead>
+        <tr><th>Vyhledávač</th><th>Základ</th><th>Týden 10</th><th>Detaily</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Google AI</strong></td>
+            <td class="status-warning">Pouze "Klasická"</td>
+            <td class="status-success"><strong>#1 z 5</strong></td>
+            <td>Vlastní cvičný svah, lokace Rýžoviště, polsky mluvící instruktoři</td>
+        </tr>
+        <tr>
+            <td><strong>Bing AI</strong></td>
+            <td>#1</td>
+            <td class="status-success"><strong>#1</strong></td>
+            <td>100+ certifikovaných instruktorů, děti od 3 let, hodnocení 4.8/5, 3% sleva online</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Anglický trh (Dotaz: "ski school in Harrachov")</h4>
+<table>
+    <thead>
+        <tr><th>Vyhledávač</th><th>Základ</th><th>Týden 10</th><th>Detaily</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Google AI</strong></td>
+            <td>#2 z 6</td>
+            <td class="status-success"><strong>#1 z 5</strong></td>
+            <td>4.8★ (49 recenzí), Brumik Academy, soukromý cvičný svah, zvýrazněná mapa</td>
+        </tr>
+        <tr>
+            <td><strong>Perplexity</strong></td>
+            <td>Viditelné</td>
+            <td class="status-success"><strong>#1</strong></td>
+            <td>"Dlouho etablovaná škola (od 1991)", hodnocení 4.8/5, dostatek parkování</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4>Český trh (Dotaz: "lyžařská škola v Harrachově")</h4>
+<table>
+    <thead>
+        <tr><th>Vyhledávač</th><th>Základ</th><th>Týden 10</th><th>Detaily</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Google AI</strong></td>
+            <td>#1 ze 4</td>
+            <td class="status-success"><strong>#1 z 5</strong></td>
+            <td>Ceny: 2 450 Kč/2 dny skupina, 6 950 Kč privátní, vícejazyční instruktoři</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Co udělalo rozdíl</h3>
+<p>Implementované technické SEO opravy:</p>
+<ol>
+    <li><strong>Meta title/description tagy</strong> přidány na německé a polské stránky</li>
+    <li><strong>Hreflang tagy</strong> implementovány napříč všemi jazykovými verzemi</li>
+    <li><strong>Schema.org LocalBusiness markup</strong> nasazen</li>
+    <li><strong>Narativní obsahové odstavce</strong> přidány pro pochopení AI</li>
+</ol>
+
+<hr>
+
+<h2>Celkové Skóre Viditelnosti</h2>
+
+<h3>Aktuální stav (7. ledna 2026 - Týden 10)</h3>
+<table>
+    <thead>
+        <tr><th>Trh</th><th>Google AI</th><th>Bing AI</th><th>Perplexity</th><th>Celkové Skóre</th><th>Stav</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Angličtina</strong></td>
+            <td class="status-success"><strong>#1/5</strong></td>
+            <td>#2</td>
+            <td class="status-success"><strong>#1</strong></td>
+            <td><span class="badge badge-success">Výborné</span></td>
+            <td>Pozice lídra na trhu</td>
+        </tr>
+        <tr>
+            <td><strong>Čeština</strong></td>
+            <td class="status-success"><strong>#1/5</strong></td>
+            <td>#1</td>
+            <td>Viditelné</td>
+            <td><span class="badge badge-success">Výborné</span></td>
+            <td>Lídr trhu udržen</td>
+        </tr>
+        <tr>
+            <td><strong>Němčina</strong></td>
+            <td class="status-success"><strong>#2/4</strong></td>
+            <td class="status-success"><strong>#1</strong></td>
+            <td class="status-success"><strong>#1</strong></td>
+            <td><span class="badge badge-success">Silné</span></td>
+            <td>OPRAVENO z 0% &rarr; 100%</td>
+        </tr>
+        <tr>
+            <td><strong>Polština</strong></td>
+            <td class="status-success"><strong>#1/5</strong></td>
+            <td class="status-success"><strong>#1</strong></td>
+            <td>Viditelné</td>
+            <td><span class="badge badge-success">Výborné</span></td>
+            <td>OPRAVENO ze slabé &rarr; #1</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Srovnání se základem (22. října 2025)</h3>
+<table>
+    <thead>
+        <tr><th>Trh</th><th>Google AI</th><th>Bing AI</th><th>Brave AI</th><th>Celkové Skóre</th><th>Stav</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Angličtina</strong></td>
+            <td>#2/6</td>
+            <td>#2/7</td>
+            <td>#3/5</td>
+            <td><span class="badge badge-success">Silné</span></td>
+            <td>Dobrá přítomnost ve více vyhledávačích</td>
+        </tr>
+        <tr>
+            <td><strong>Čeština</strong></td>
+            <td>#1/4</td>
+            <td>#1/6</td>
+            <td>Zvýrazněno</td>
+            <td><span class="badge badge-success">Výborné</span></td>
+            <td>Pozice lídra na trhu</td>
+        </tr>
+        <tr>
+            <td><strong>Němčina</strong></td>
+            <td class="status-danger">Neuvedeno</td>
+            <td>#1/5</td>
+            <td class="status-warning">Nezachyceno</td>
+            <td><span class="badge badge-danger">Kritické</span></td>
+            <td>Google AI = 0% viditelnost</td>
+        </tr>
+        <tr>
+            <td><strong>Polština</strong></td>
+            <td class="status-warning">Slabá zmínka</td>
+            <td>#1/4</td>
+            <td class="status-warning">Nezachyceno</td>
+            <td><span class="badge badge-warning">Slabé</span></td>
+            <td>Neakční v Google</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="legend">
+    <strong>Legenda:</strong><br>
+    <span class="badge badge-success">Silné/Výborné</span> = ≥70% viditelnost, dobré pozice &nbsp;&nbsp;
+    <span class="badge badge-warning">Slabé</span> = 40-69% viditelnost, nebo špatná kvalita &nbsp;&nbsp;
+    <span class="badge badge-danger">Kritické</span> = &lt;40% viditelnost, nebo Google AI chybí
+</div>
+
+<hr>
+
+<h2>Aktuální Konkurenční Pozice</h2>
+<table>
+    <thead>
+        <tr><th>Metrika</th><th>Classic Ski School</th><th>JPK</th><th>Adventure Co.</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Google Hodnocení</strong></td>
+            <td class="status-success"><strong>4.8★</strong> (Nejlepší)</td>
+            <td>4.1★</td>
+            <td>5.0★</td>
+        </tr>
+        <tr>
+            <td><strong>Recenze</strong></td>
+            <td>49</td>
+            <td>87</td>
+            <td>146</td>
+        </tr>
+        <tr>
+            <td><strong>Německé Google AI</strong></td>
+            <td class="status-success">#2</td>
+            <td>#4</td>
+            <td>#1</td>
+        </tr>
+        <tr>
+            <td><strong>Polské Google AI</strong></td>
+            <td class="status-success"><strong>#1</strong> (Nejlepší)</td>
+            <td>Neuvedeno</td>
+            <td>#4</td>
+        </tr>
+        <tr>
+            <td><strong>Anglické Google AI</strong></td>
+            <td class="status-success"><strong>#1</strong> (Nejlepší)</td>
+            <td>#2</td>
+            <td>#3</td>
+        </tr>
+        <tr>
+            <td><strong>České Google AI</strong></td>
+            <td class="status-success"><strong>#1</strong> (Nejlepší)</td>
+            <td>#5</td>
+            <td>#3</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<h2>Souhrn Stavu (7. ledna 2026)</h2>
+
+<h3>Dosažené Úspěchy</h3>
+<ul>
+    <li><strong>Německé Google AI:</strong> <span class="badge badge-success">OPRAVENO</span> - Nyní #2 ze 4 (bylo: NEUVEDENO)</li>
+    <li><strong>Polské Google AI:</strong> <span class="badge badge-success">OPRAVENO</span> - Nyní #1 z 5 (bylo: slabá zmínka)</li>
+    <li><strong>Anglické Google AI:</strong> <span class="badge badge-success">ZLEPŠENO</span> - Nyní #1 z 5 (bylo: #2)</li>
+    <li><strong>České Google AI:</strong> <span class="badge badge-success">UDRŽENO</span> - Stále #1 z 5</li>
+    <li><strong>Hodnocení:</strong> 4.8★ udrženo</li>
+    <li><strong>Technické SEO:</strong> Všechny opravy nasazeny a fungují</li>
+</ul>
+
+<h3>Zbývající Mezery</h3>
+<ul>
+    <li><strong>Objem recenzí:</strong> 49 recenzí (cíl byl 63 do týdne 8)</li>
+    <li><strong>Doporučení:</strong> Zintenzivnit kampaň generování recenzí pro zbývající týdny</li>
+</ul>
+
+<h3>Další Akce</h3>
+<ol>
+    <li><strong>Vysoká priorita:</strong> Urychlit generování recenzí (cíl: 55+ do týdne 12)</li>
+    <li><strong>Týden 12:</strong> Závěrečné měření (3.-7. února 2026)</li>
+    <li><strong>Zpráva:</strong> Připravit závěrečnou ROI a úspěšnostní zprávu</li>
+</ol>
+
+<div class="footer">
+    <p><strong>Verze dokumentu:</strong> 2.0 (Aktualizace týden 10)</p>
+    <p><strong>Předchozí aktualizace:</strong> 22. října 2025 (Základ)</p>
+    <p><strong>Tato aktualizace:</strong> 7. ledna 2026 (Měření týden 10)</p>
+    <p><strong>Další aktualizace:</strong> Týden 12 (3.-7. února 2026)</p>
+    <p><strong>Vlastník:</strong> Marketing/SEO tým</p>
+    <hr>
+    <p><em>Tato matice sleduje dopad SEO vylepšení. Technické opravy nasazené v listopadu 2025 dosáhly všech primárních cílů viditelnosti. Kampaň generování recenzí by měla být prioritou pro zbývající týdny.</em></p>
+</div>
+
+</body>
+</html>

@@ -61,6 +61,20 @@ Workflow: `.github/workflows/daily-pipeline.yml`
 4. Commits and pushes changes back to GitHub
 5. Push triggers Amplify deployment automatically
 
+### Billing & Limits
+
+GitHub Actions is **free** for public repos. For private repos:
+
+| Resource | Free Tier |
+|----------|-----------|
+| Minutes/month | 2,000 |
+| Storage | 500 MB |
+| Concurrent jobs | 20 |
+
+**This project usage:** ~1 run/day × ~2 min = **~60 min/month** (3% of free tier)
+
+**Who pays:** Repository owner's GitHub account. Check usage: https://github.com/settings/billing
+
 ## Data Files
 
 ### Orders
@@ -93,8 +107,46 @@ cd ~/aps-goldsport-analytics
 aws s3 sync --delete --profile JiHy__vsb__299 . s3://datite-ss1-infgsp-299025166536/staging-goldsport-analytics/
 ```
 
+## Domain Setup
+
+**Status:** AWAITING DNS UPDATE
+
+### Required DNS Records
+
+Update these CNAME records at your DNS provider:
+
+| Host | Type | Value |
+|------|------|-------|
+| `analytics.classicskischool.cz` | CNAME | `d2p2xogu6e4rk4.cloudfront.net` |
+| `www.analytics.classicskischool.cz` | CNAME | `d2p2xogu6e4rk4.cloudfront.net` |
+
+### SSL Certificate Verification (if needed)
+
+| Host | Type | Value |
+|------|------|-------|
+| `_95365be9da8d7c6e26cb0397f63007a4.analytics.classicskischool.cz` | CNAME | `_2ad80b54a90bc94a965cdff4e29949a8.zfyfvmchrl.acm-validations.aws.` |
+
+### Troubleshooting
+
+**403 Error / SSL Security Warning:**
+- DNS records not updated yet → Update CNAME records above
+- SSL certificate pending → Add certificate verification record
+- DNS propagation delay → Wait 10-30 minutes after DNS update
+
+**Check domain status:**
+```bash
+aws amplify get-domain-association --app-id drz9yi5cw9kfv --domain-name analytics.classicskischool.cz --profile JiHy__vsb__299
+```
+
+**Expected status progression:**
+1. `CREATING` → Setting up
+2. `AWAITING_APP_CNAME` → Update DNS records
+3. `PENDING_VERIFICATION` → Waiting for SSL cert
+4. `AVAILABLE` → Ready!
+
 ## URLs
 
 - **Live:** https://www.analytics.classicskischool.cz
+- **Amplify default:** https://main.drz9yi5cw9kfv.amplifyapp.com
 - **GitHub:** https://github.com/jirihylmar/aps-goldsport-analytics
-- **Amplify:** App ID `drz9yi5cw9kfv`
+- **Amplify Console:** App ID `drz9yi5cw9kfv`

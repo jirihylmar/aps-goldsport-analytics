@@ -150,3 +150,12 @@ aws amplify get-domain-association --app-id drz9yi5cw9kfv --domain-name analytic
 - **Amplify default:** https://main.drz9yi5cw9kfv.amplifyapp.com
 - **GitHub:** https://github.com/jirihylmar/aps-goldsport-analytics
 - **Amplify Console:** App ID `drz9yi5cw9kfv`
+
+## Access
+
+Page is protected via Amplify Basic Auth:
+
+| | |
+|---|---|
+| **Username** | `master@goldsport.cz` |
+| **Password** | `Goldsport2025` |

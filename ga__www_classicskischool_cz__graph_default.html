@@ -48,7 +48,8 @@
 
     <script>
         const DATA_CONFIG = {
-            dataPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___auto_full/method=auto_full/source=goldsport/goldsport__ga_classicskischool_daily_metrix.tsv'
+            historyPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___auto_full/method=auto_full/source=goldsport/goldsport__ga_classicskischool_daily_metrix.tsv',
+            currentPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___hand_increment/method=hand_increment/source=goldsport/ga_classicskischool-current-season.tsv'
         };
 
         const LANG_PATHS = {
@@ -237,21 +238,40 @@
 
         async function loadData() {
             try {
-                console.log('Attempting to load data from:', DATA_CONFIG.dataPath);
-                const response = await fetch(DATA_CONFIG.dataPath);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const text = await response.text();
-                
-                const parsed = Papa.parse(text, {
-                    header: true,
-                    skipEmptyLines: true,
-                    delimiter: '\t',
-                    dynamicTyping: true
-                });
+                // Load both history and current season data
+                const [historyResponse, currentResponse] = await Promise.all([
+                    fetch(DATA_CONFIG.historyPath),
+                    fetch(DATA_CONFIG.currentPath)
+                ]);
 
-                return parsed.data;
+                let allData = [];
+
+                if (historyResponse.ok) {
+                    const historyText = await historyResponse.text();
+                    const historyParsed = Papa.parse(historyText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        delimiter: '\t',
+                        dynamicTyping: true
+                    });
+                    allData = allData.concat(historyParsed.data);
+                }
+
+                if (currentResponse.ok) {
+                    const currentText = await currentResponse.text();
+                    const currentParsed = Papa.parse(currentText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        delimiter: '\t',
+                        dynamicTyping: true
+                    });
+                    allData = allData.concat(currentParsed.data);
+                }
+
+                // Remove duplicates by date+code+type, keeping latest
+                const uniqueData = _.uniqBy(allData.reverse(), row => `${row.date}-${row.code}-${row.type}`).reverse();
+
+                return uniqueData;
             } catch (error) {
                 console.error('Error loading data:', error);
                 return [];

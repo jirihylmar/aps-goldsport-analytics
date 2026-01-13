@@ -1,0 +1,7 @@
+# Credentials - never commit to repo
+*.json
+etls/ga_download/*.json
+
+# Python
+__pycache__/
+*.py[cod]

@@ -27,7 +27,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install pandas
+        run: pip install pandas google-auth google-auth-httplib2 requests
 
       - name: Run pipeline
         run: |
@@ -54,14 +54,54 @@ jobs:
 
           echo "=== Pipeline complete ==="
 
+      - name: Download Google Analytics data
+        env:
+          GA_CREDENTIALS: ${{ secrets.GA_CREDENTIALS }}
+        run: |
+          TIMESTAMP=$(date +"%Y-%m-%d-%H%M%S")
+          GA_DIR="goldsport__ga_classicskischool_daily_metrix___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
+          CREDS_FILE="etls/ga_download/credentials.json"
+
+          echo "=== Setting up GA credentials ==="
+          echo "${GA_CREDENTIALS}" > "${CREDS_FILE}"
+
+          echo "=== Downloading Google Analytics current season data ==="
+          python etls/ga_download/action_google_analytics_download.py \
+            --path-to-api-key="${CREDS_FILE}" \
+            --project-property-id=365327832 \
+            --pages-paths=etls/ga_download/pages.txt \
+            --start-date=2025-12-01 \
+            --output-path="${GA_DIR}/ga_classicskischool-${TIMESTAMP}.tsv"
+
+          # Update current season file
+          cp "${GA_DIR}/ga_classicskischool-${TIMESTAMP}.tsv" "${GA_DIR}/ga_classicskischool-current-season.tsv"
+
+          # Clean up credentials
+          rm -f "${CREDS_FILE}"
+
+          echo "=== GA download complete ==="
+
       - name: Clean up duplicate files
         run: |
+          # Clean up orders
           ORDERS_DIR="goldsport__orders___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
-          # Keep only the latest file per day (plus current-season)
           cd "${ORDERS_DIR}"
           for date in $(ls orders-*.tsv 2>/dev/null | grep -v current-season | sed 's/orders-\([0-9-]*\)-.*/\1/' | sort -u); do
             latest=$(ls -t orders-${date}-*.tsv 2>/dev/null | head -1)
             for f in orders-${date}-*.tsv; do
+              if [ "$f" != "$latest" ]; then
+                rm -f "$f"
+              fi
+            done
+          done
+
+          # Clean up GA data
+          cd "$GITHUB_WORKSPACE"
+          GA_DIR="goldsport__ga_classicskischool_daily_metrix___gsp_dataset___hand_increment/method=hand_increment/source=goldsport"
+          cd "${GA_DIR}"
+          for date in $(ls ga_classicskischool-*.tsv 2>/dev/null | grep -v current-season | sed 's/ga_classicskischool-\([0-9-]*\)-.*/\1/' | sort -u); do
+            latest=$(ls -t ga_classicskischool-${date}-*.tsv 2>/dev/null | head -1)
+            for f in ga_classicskischool-${date}-*.tsv; do
               if [ "$f" != "$latest" ]; then
                 rm -f "$f"
               fi

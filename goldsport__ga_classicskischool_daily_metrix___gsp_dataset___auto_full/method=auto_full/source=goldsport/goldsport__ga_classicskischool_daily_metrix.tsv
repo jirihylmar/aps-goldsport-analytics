@@ -6019,19 +6019,15 @@ date	year	week	code	type	value
 2025-03-08	2025	10	/	Average engagement time per session	205
 2025-03-08	2025	10	/	New users	9
 2025-03-08	2025	10	/	Sessions	9
-2025-03-09	2025	10	/	Active users	3
-2025-03-09	2025	10	/	Average engagement time per session	46
-2025-03-09	2025	10	/	New users	5
-2025-03-09	2025	10	/	Sessions	8
-2025-03-09	2025	10	/de/objednavka	Active users	1
-2025-03-09	2025	10	/de/objednavka	Average engagement time per session	834
-2025-03-09	2025	10	/de/objednavka	New users	1
-2025-03-09	2025	10	/de/objednavka	Sessions	1
-2025-03-09	2025	10	/objednavka	Active users	1
-2025-03-09	2025	10	/objednavka	Average engagement time per session	21
-2025-03-09	2025	10	/objednavka	New users	0
-2025-03-09	2025	10	/objednavka	Sessions	1
-2025-03-09	2025	10	/pl	Active users	0
+2025-03-09	2025	10	/	Active users	12
+2025-03-09	2025	10	/	Average engagement time per session	26
+2025-03-09	2025	10	/	New users	11
+2025-03-09	2025	10	/	Sessions	16
+2025-03-09	2025	10	/en	Active users	1
+2025-03-09	2025	10	/en	Average engagement time per session	0
+2025-03-09	2025	10	/en	New users	1
+2025-03-09	2025	10	/en	Sessions	1
+2025-03-09	2025	10	/pl	Active users	2
 2025-03-09	2025	10	/pl	Average engagement time per session	0
 2025-03-09	2025	10	/pl	New users	2
 2025-03-09	2025	10	/pl	Sessions	2
@@ -6039,15 +6035,223 @@ date	year	week	code	type	value
 2025-03-09	2025	10	/pl/objednavka	Average engagement time per session	0
 2025-03-09	2025	10	/pl/objednavka	New users	0
 2025-03-09	2025	10	/pl/objednavka	Sessions	1
-2025-03-10	2025	11	/	Active users	0
-2025-03-10	2025	11	/	Average engagement time per session	0
-2025-03-10	2025	11	/	New users	1
-2025-03-10	2025	11	/	Sessions	1
+2025-03-10	2025	11	/	Active users	9
+2025-03-10	2025	11	/	Average engagement time per session	139
+2025-03-10	2025	11	/	New users	8
+2025-03-10	2025	11	/	Sessions	11
 2025-03-10	2025	11	/en	Active users	1
-2025-03-10	2025	11	/en	Average engagement time per session	905
+2025-03-10	2025	11	/en	Average engagement time per session	1223
 2025-03-10	2025	11	/en	New users	0
 2025-03-10	2025	11	/en	Sessions	2
-2025-03-10	2025	11	/objednavka	Active users	0
+2025-03-10	2025	11	/objednavka	Active users	1
 2025-03-10	2025	11	/objednavka	Average engagement time per session	0
 2025-03-10	2025	11	/objednavka	New users	0
-2025-03-10	2025	11	/objednavka	Sessions	1
+2025-03-10	2025	11	/objednavka	Sessions	2
+2025-03-10	2025	11	/pl	Active users	1
+2025-03-10	2025	11	/pl	Average engagement time per session	999
+2025-03-10	2025	11	/pl	New users	1
+2025-03-10	2025	11	/pl	Sessions	1
+2025-03-11	2025	11	/	Active users	7
+2025-03-11	2025	11	/	Average engagement time per session	41
+2025-03-11	2025	11	/	New users	6
+2025-03-11	2025	11	/	Sessions	9
+2025-03-11	2025	11	/de	Active users	1
+2025-03-11	2025	11	/de	Average engagement time per session	160
+2025-03-11	2025	11	/de	New users	1
+2025-03-11	2025	11	/de	Sessions	1
+2025-03-11	2025	11	/objednavka	Active users	1
+2025-03-11	2025	11	/objednavka	Average engagement time per session	12
+2025-03-11	2025	11	/objednavka	New users	0
+2025-03-11	2025	11	/objednavka	Sessions	1
+2025-03-11	2025	11	/pl	Active users	4
+2025-03-11	2025	11	/pl	Average engagement time per session	169
+2025-03-11	2025	11	/pl	New users	4
+2025-03-11	2025	11	/pl	Sessions	6
+2025-03-12	2025	11	/	Active users	8
+2025-03-12	2025	11	/	Average engagement time per session	96
+2025-03-12	2025	11	/	New users	8
+2025-03-12	2025	11	/	Sessions	9
+2025-03-13	2025	11	/	Active users	15
+2025-03-13	2025	11	/	Average engagement time per session	138
+2025-03-13	2025	11	/	New users	12
+2025-03-13	2025	11	/	Sessions	20
+2025-03-13	2025	11	/en	Active users	1
+2025-03-13	2025	11	/en	Average engagement time per session	975
+2025-03-13	2025	11	/en	New users	1
+2025-03-13	2025	11	/en	Sessions	1
+2025-03-13	2025	11	/objednavka	Active users	1
+2025-03-13	2025	11	/objednavka	Average engagement time per session	279
+2025-03-13	2025	11	/objednavka	New users	0
+2025-03-13	2025	11	/objednavka	Sessions	1
+2025-03-14	2025	11	/	Active users	20
+2025-03-14	2025	11	/	Average engagement time per session	72
+2025-03-14	2025	11	/	New users	17
+2025-03-14	2025	11	/	Sessions	26
+2025-03-14	2025	11	/de	Active users	1
+2025-03-14	2025	11	/de	Average engagement time per session	23
+2025-03-14	2025	11	/de	New users	0
+2025-03-14	2025	11	/de	Sessions	2
+2025-03-14	2025	11	/objednavka	Active users	1
+2025-03-14	2025	11	/objednavka	Average engagement time per session	0
+2025-03-14	2025	11	/objednavka	New users	0
+2025-03-14	2025	11	/objednavka	Sessions	1
+2025-03-14	2025	11	/pl	Active users	0
+2025-03-14	2025	11	/pl	Average engagement time per session	0
+2025-03-14	2025	11	/pl	New users	0
+2025-03-14	2025	11	/pl	Sessions	1
+2025-03-15	2025	11	/	Active users	8
+2025-03-15	2025	11	/	Average engagement time per session	501
+2025-03-15	2025	11	/	New users	6
+2025-03-15	2025	11	/	Sessions	11
+2025-03-15	2025	11	/objednavka	Active users	1
+2025-03-15	2025	11	/objednavka	Average engagement time per session	3
+2025-03-15	2025	11	/objednavka	New users	0
+2025-03-15	2025	11	/objednavka	Sessions	2
+2025-03-16	2025	11	/	Active users	5
+2025-03-16	2025	11	/	Average engagement time per session	123
+2025-03-16	2025	11	/	New users	4
+2025-03-16	2025	11	/	Sessions	7
+2025-03-16	2025	11	/objednavka	Active users	2
+2025-03-16	2025	11	/objednavka	Average engagement time per session	302
+2025-03-16	2025	11	/objednavka	New users	1
+2025-03-16	2025	11	/objednavka	Sessions	2
+2025-03-16	2025	11	/pl	Active users	1
+2025-03-16	2025	11	/pl	Average engagement time per session	1820
+2025-03-16	2025	11	/pl	New users	0
+2025-03-16	2025	11	/pl	Sessions	1
+2025-03-17	2025	12	/	Active users	5
+2025-03-17	2025	12	/	Average engagement time per session	89
+2025-03-17	2025	12	/	New users	5
+2025-03-17	2025	12	/	Sessions	6
+2025-03-18	2025	12	/	Active users	5
+2025-03-18	2025	12	/	Average engagement time per session	11
+2025-03-18	2025	12	/	New users	3
+2025-03-18	2025	12	/	Sessions	6
+2025-03-18	2025	12	/en	Active users	6
+2025-03-18	2025	12	/en	Average engagement time per session	54
+2025-03-18	2025	12	/en	New users	6
+2025-03-18	2025	12	/en	Sessions	6
+2025-03-18	2025	12	/objednavka	Active users	1
+2025-03-18	2025	12	/objednavka	Average engagement time per session	0
+2025-03-18	2025	12	/objednavka	New users	0
+2025-03-18	2025	12	/objednavka	Sessions	1
+2025-03-19	2025	12	/	Active users	10
+2025-03-19	2025	12	/	Average engagement time per session	126
+2025-03-19	2025	12	/	New users	9
+2025-03-19	2025	12	/	Sessions	11
+2025-03-19	2025	12	/en	Active users	7
+2025-03-19	2025	12	/en	Average engagement time per session	22
+2025-03-19	2025	12	/en	New users	6
+2025-03-19	2025	12	/en	Sessions	7
+2025-03-19	2025	12	/objednavka	Active users	0
+2025-03-19	2025	12	/objednavka	Average engagement time per session	0
+2025-03-19	2025	12	/objednavka	New users	0
+2025-03-19	2025	12	/objednavka	Sessions	1
+2025-03-19	2025	12	/pl	Active users	0
+2025-03-19	2025	12	/pl	Average engagement time per session	0
+2025-03-19	2025	12	/pl	New users	0
+2025-03-19	2025	12	/pl	Sessions	1
+2025-03-20	2025	12	/	Active users	11
+2025-03-20	2025	12	/	Average engagement time per session	171
+2025-03-20	2025	12	/	New users	9
+2025-03-20	2025	12	/	Sessions	12
+2025-03-20	2025	12	/de	Active users	2
+2025-03-20	2025	12	/de	Average engagement time per session	224
+2025-03-20	2025	12	/de	New users	1
+2025-03-20	2025	12	/de	Sessions	2
+2025-03-20	2025	12	/en	Active users	2
+2025-03-20	2025	12	/en	Average engagement time per session	35
+2025-03-20	2025	12	/en	New users	2
+2025-03-20	2025	12	/en	Sessions	3
+2025-03-20	2025	12	/pl	Active users	1
+2025-03-20	2025	12	/pl	Average engagement time per session	0
+2025-03-20	2025	12	/pl	New users	1
+2025-03-20	2025	12	/pl	Sessions	1
+2025-03-21	2025	12	/	Active users	2
+2025-03-21	2025	12	/	Average engagement time per session	24
+2025-03-21	2025	12	/	New users	2
+2025-03-21	2025	12	/	Sessions	2
+2025-03-21	2025	12	/en	Active users	0
+2025-03-21	2025	12	/en	Average engagement time per session	0
+2025-03-21	2025	12	/en	New users	0
+2025-03-21	2025	12	/en	Sessions	1
+2025-03-21	2025	12	/pl	Active users	3
+2025-03-21	2025	12	/pl	Average engagement time per session	15
+2025-03-21	2025	12	/pl	New users	3
+2025-03-21	2025	12	/pl	Sessions	3
+2025-03-22	2025	12	/	Active users	2
+2025-03-22	2025	12	/	Average engagement time per session	0
+2025-03-22	2025	12	/	New users	2
+2025-03-22	2025	12	/	Sessions	2
+2025-03-22	2025	12	/de	Active users	1
+2025-03-22	2025	12	/de	Average engagement time per session	49
+2025-03-22	2025	12	/de	New users	1
+2025-03-22	2025	12	/de	Sessions	1
+2025-03-22	2025	12	/en	Active users	1
+2025-03-22	2025	12	/en	Average engagement time per session	0
+2025-03-22	2025	12	/en	New users	1
+2025-03-22	2025	12	/en	Sessions	3
+2025-03-22	2025	12	/pl	Active users	0
+2025-03-22	2025	12	/pl	Average engagement time per session	0
+2025-03-22	2025	12	/pl	New users	0
+2025-03-22	2025	12	/pl	Sessions	1
+2025-03-23	2025	12	/	Active users	2
+2025-03-23	2025	12	/	Average engagement time per session	16
+2025-03-23	2025	12	/	New users	2
+2025-03-23	2025	12	/	Sessions	4
+2025-03-24	2025	13	/	Active users	8
+2025-03-24	2025	13	/	Average engagement time per session	72
+2025-03-24	2025	13	/	New users	7
+2025-03-24	2025	13	/	Sessions	9
+2025-03-25	2025	13	/	Active users	5
+2025-03-25	2025	13	/	Average engagement time per session	25
+2025-03-25	2025	13	/	New users	5
+2025-03-25	2025	13	/	Sessions	5
+2025-03-25	2025	13	/de	Active users	1
+2025-03-25	2025	13	/de	Average engagement time per session	148
+2025-03-25	2025	13	/de	New users	1
+2025-03-25	2025	13	/de	Sessions	1
+2025-03-25	2025	13	/objednavka	Active users	0
+2025-03-25	2025	13	/objednavka	Average engagement time per session	0
+2025-03-25	2025	13	/objednavka	New users	0
+2025-03-25	2025	13	/objednavka	Sessions	2
+2025-03-26	2025	13	/	Active users	8
+2025-03-26	2025	13	/	Average engagement time per session	113
+2025-03-26	2025	13	/	New users	8
+2025-03-26	2025	13	/	Sessions	8
+2025-03-26	2025	13	/en	Active users	1
+2025-03-26	2025	13	/en	Average engagement time per session	1839
+2025-03-26	2025	13	/en	New users	1
+2025-03-26	2025	13	/en	Sessions	1
+2025-03-27	2025	13	/	Active users	6
+2025-03-27	2025	13	/	Average engagement time per session	414
+2025-03-27	2025	13	/	New users	5
+2025-03-27	2025	13	/	Sessions	7
+2025-03-27	2025	13	/objednavka	Active users	1
+2025-03-27	2025	13	/objednavka	Average engagement time per session	292
+2025-03-27	2025	13	/objednavka	New users	1
+2025-03-27	2025	13	/objednavka	Sessions	1
+2025-03-28	2025	13	/	Active users	7
+2025-03-28	2025	13	/	Average engagement time per session	29
+2025-03-28	2025	13	/	New users	6
+2025-03-28	2025	13	/	Sessions	7
+2025-03-29	2025	13	/	Active users	5
+2025-03-29	2025	13	/	Average engagement time per session	398
+2025-03-29	2025	13	/	New users	4
+2025-03-29	2025	13	/	Sessions	5
+2025-03-30	2025	13	/	Active users	3
+2025-03-30	2025	13	/	Average engagement time per session	3
+2025-03-30	2025	13	/	New users	3
+2025-03-30	2025	13	/	Sessions	3
+2025-03-30	2025	13	/pl	Active users	1
+2025-03-30	2025	13	/pl	Average engagement time per session	0
+2025-03-30	2025	13	/pl	New users	0
+2025-03-30	2025	13	/pl	Sessions	1
+2025-03-31	2025	14	/	Active users	1
+2025-03-31	2025	14	/	Average engagement time per session	5
+2025-03-31	2025	14	/	New users	1
+2025-03-31	2025	14	/	Sessions	2
+2025-03-31	2025	14	/en	Active users	1
+2025-03-31	2025	14	/en	Average engagement time per session	59
+2025-03-31	2025	14	/en	New users	1
+2025-03-31	2025	14	/en	Sessions	1

@@ -64,7 +64,8 @@
 
     <script>
         const DATA_CONFIG = {
-            dataPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___auto_full/method=auto_full/source=goldsport/goldsport__ga_classicskischool_daily_metrix.tsv'
+            historyPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___auto_full/method=auto_full/source=goldsport/goldsport__ga_classicskischool_daily_metrix.tsv',
+            currentPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___hand_increment/method=hand_increment/source=goldsport/ga_classicskischool-current-season.tsv'
         };
 
         const LANG_PATHS = {
@@ -105,6 +106,11 @@
                 start: new Date('2024-12-01'),
                 end: new Date('2025-03-31'),
                 label: '2024 Dec - 2025 Mar'
+            },
+            period3: {
+                start: new Date('2025-12-01'),
+                end: new Date('2026-03-31'),
+                label: '2025 Dec - 2026 Mar'
             }
         };
 
@@ -285,25 +291,44 @@
 
         async function loadData() {
             try {
-                console.log('Attempting to load data from:', DATA_CONFIG.dataPath);
-                const response = await fetch(DATA_CONFIG.dataPath);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const text = await response.text();
-                
-                const parsed = Papa.parse(text, {
-                    header: true,
-                    skipEmptyLines: true,
-                    delimiter: '\t',
-                    dynamicTyping: true
-                });
+                // Load both history and current season data
+                const [historyResponse, currentResponse] = await Promise.all([
+                    fetch(DATA_CONFIG.historyPath),
+                    fetch(DATA_CONFIG.currentPath)
+                ]);
 
-                const latestDate = _.maxBy(parsed.data, row => new Date(row.date))?.date;
-                document.getElementById('mainTitle').textContent = 
+                let allData = [];
+
+                if (historyResponse.ok) {
+                    const historyText = await historyResponse.text();
+                    const historyParsed = Papa.parse(historyText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        delimiter: '\t',
+                        dynamicTyping: true
+                    });
+                    allData = allData.concat(historyParsed.data);
+                }
+
+                if (currentResponse.ok) {
+                    const currentText = await currentResponse.text();
+                    const currentParsed = Papa.parse(currentText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        delimiter: '\t',
+                        dynamicTyping: true
+                    });
+                    allData = allData.concat(currentParsed.data);
+                }
+
+                // Remove duplicates by date+code+type, keeping latest
+                const uniqueData = _.uniqBy(allData.reverse(), row => `${row.date}-${row.code}-${row.type}`).reverse();
+
+                const latestDate = _.maxBy(uniqueData, row => new Date(row.date))?.date;
+                document.getElementById('mainTitle').textContent =
                     `Analytics by Language | ${document.getElementById('metricSelector').value} | Latest day processed: ${latestDate}`;
 
-                return parsed.data;
+                return uniqueData;
             } catch (error) {
                 console.error('Error loading data:', error);
                 return [];
@@ -355,14 +380,16 @@
                 .value();
         }
 
-        function findMaxValues(data1, data2) {
+        function findMaxValues(data1, data2, data3) {
             const maxMain = Math.max(
                 _.maxBy(data1, 'mainValue')?.mainValue || 0,
-                _.maxBy(data2, 'mainValue')?.mainValue || 0
+                _.maxBy(data2, 'mainValue')?.mainValue || 0,
+                _.maxBy(data3, 'mainValue')?.mainValue || 0
             );
             const maxOrder = Math.max(
                 _.maxBy(data1, 'orderValue')?.orderValue || 0,
-                _.maxBy(data2, 'orderValue')?.orderValue || 0
+                _.maxBy(data2, 'orderValue')?.orderValue || 0,
+                _.maxBy(data3, 'orderValue')?.orderValue || 0
             );
             return { main: maxMain, order: maxOrder };
         }
@@ -370,27 +397,32 @@
         function createLanguageSection(lang) {
             const section = document.createElement('div');
             section.className = 'bg-white rounded-lg shadow p-4 chart-section';
-            
+
             const title = document.createElement('h2');
             title.className = 'text-lg font-bold mb-2';
             title.textContent = LANG_PATHS[lang].label;
             section.appendChild(title);
-            
+
             const chartsWrapper = document.createElement('div');
             chartsWrapper.className = 'flex gap-4';
-            
+
             const chartDiv1 = document.createElement('div');
             chartDiv1.className = 'chart-container flex-1';
             chartDiv1.id = `chart-${lang}-period1`;
-            
+
             const chartDiv2 = document.createElement('div');
             chartDiv2.className = 'chart-container flex-1';
             chartDiv2.id = `chart-${lang}-period2`;
-            
+
+            const chartDiv3 = document.createElement('div');
+            chartDiv3.className = 'chart-container flex-1';
+            chartDiv3.id = `chart-${lang}-period3`;
+
             chartsWrapper.appendChild(chartDiv1);
             chartsWrapper.appendChild(chartDiv2);
+            chartsWrapper.appendChild(chartDiv3);
             section.appendChild(chartsWrapper);
-            
+
             return section;
         }
 
@@ -413,16 +445,18 @@
                 const section = createLanguageSection(lang);
                 container.appendChild(section);
 
-                // Process data for both periods
+                // Process data for all three periods
                 const period1Data = processData(data, lang, timeframe, TIME_PERIODS.period1, selectedMetric);
                 const period2Data = processData(data, lang, timeframe, TIME_PERIODS.period2, selectedMetric);
+                const period3Data = processData(data, lang, timeframe, TIME_PERIODS.period3, selectedMetric);
 
-                // Find max values across both periods for consistent scaling
-                const maxValues = findMaxValues(period1Data, period2Data);
+                // Find max values across all periods for consistent scaling
+                const maxValues = findMaxValues(period1Data, period2Data, period3Data);
 
-                // Create charts for both periods with consistent scaling
+                // Create charts for all periods with consistent scaling
                 createChart(period1Data, lang, `chart-${lang}-period1`, TIME_PERIODS.period1, maxValues);
                 createChart(period2Data, lang, `chart-${lang}-period2`, TIME_PERIODS.period2, maxValues);
+                createChart(period3Data, lang, `chart-${lang}-period3`, TIME_PERIODS.period3, maxValues);
             });
         }
 

@@ -1,0 +1,721 @@
+date	year	week	code	type	value
+2025-12-01	2025	49	/	Active users	13
+2025-12-01	2025	49	/	Average engagement time per session	575
+2025-12-01	2025	49	/	New users	8
+2025-12-01	2025	49	/	Sessions	21
+2025-12-01	2025	49	/de	Active users	2
+2025-12-01	2025	49	/de	Average engagement time per session	54
+2025-12-01	2025	49	/de	New users	2
+2025-12-01	2025	49	/de	Sessions	2
+2025-12-01	2025	49	/de/objednavka	Active users	1
+2025-12-01	2025	49	/de/objednavka	Average engagement time per session	112
+2025-12-01	2025	49	/de/objednavka	New users	1
+2025-12-01	2025	49	/de/objednavka	Sessions	2
+2025-12-01	2025	49	/en	Active users	1
+2025-12-01	2025	49	/en	Average engagement time per session	5
+2025-12-01	2025	49	/en	New users	1
+2025-12-01	2025	49	/en	Sessions	1
+2025-12-01	2025	49	/objednavka	Active users	2
+2025-12-01	2025	49	/objednavka	Average engagement time per session	23
+2025-12-01	2025	49	/objednavka	New users	1
+2025-12-01	2025	49	/objednavka	Sessions	3
+2025-12-02	2025	49	/	Active users	29
+2025-12-02	2025	49	/	Average engagement time per session	321
+2025-12-02	2025	49	/	New users	19
+2025-12-02	2025	49	/	Sessions	34
+2025-12-02	2025	49	/de	Active users	1
+2025-12-02	2025	49	/de	Average engagement time per session	0
+2025-12-02	2025	49	/de	New users	0
+2025-12-02	2025	49	/de	Sessions	1
+2025-12-02	2025	49	/en	Active users	1
+2025-12-02	2025	49	/en	Average engagement time per session	755
+2025-12-02	2025	49	/en	New users	0
+2025-12-02	2025	49	/en	Sessions	1
+2025-12-02	2025	49	/objednavka	Active users	2
+2025-12-02	2025	49	/objednavka	Average engagement time per session	550
+2025-12-02	2025	49	/objednavka	New users	1
+2025-12-02	2025	49	/objednavka	Sessions	3
+2025-12-02	2025	49	/pl	Active users	2
+2025-12-02	2025	49	/pl	Average engagement time per session	1181
+2025-12-02	2025	49	/pl	New users	2
+2025-12-02	2025	49	/pl	Sessions	2
+2025-12-03	2025	49	/	Active users	15
+2025-12-03	2025	49	/	Average engagement time per session	212
+2025-12-03	2025	49	/	New users	11
+2025-12-03	2025	49	/	Sessions	21
+2025-12-03	2025	49	/de	Active users	10
+2025-12-03	2025	49	/de	Average engagement time per session	188
+2025-12-03	2025	49	/de	New users	10
+2025-12-03	2025	49	/de	Sessions	10
+2025-12-03	2025	49	/en	Active users	3
+2025-12-03	2025	49	/en	Average engagement time per session	436
+2025-12-03	2025	49	/en	New users	3
+2025-12-03	2025	49	/en	Sessions	3
+2025-12-03	2025	49	/objednavka	Active users	1
+2025-12-03	2025	49	/objednavka	Average engagement time per session	1727
+2025-12-03	2025	49	/objednavka	New users	1
+2025-12-03	2025	49	/objednavka	Sessions	1
+2025-12-03	2025	49	/pl	Active users	2
+2025-12-03	2025	49	/pl	Average engagement time per session	549
+2025-12-03	2025	49	/pl	New users	1
+2025-12-03	2025	49	/pl	Sessions	2
+2025-12-04	2025	49	/	Active users	19
+2025-12-04	2025	49	/	Average engagement time per session	554
+2025-12-04	2025	49	/	New users	14
+2025-12-04	2025	49	/	Sessions	22
+2025-12-04	2025	49	/de	Active users	2
+2025-12-04	2025	49	/de	Average engagement time per session	3183
+2025-12-04	2025	49	/de	New users	1
+2025-12-04	2025	49	/de	Sessions	2
+2025-12-04	2025	49	/en	Active users	1
+2025-12-04	2025	49	/en	Average engagement time per session	2888
+2025-12-04	2025	49	/en	New users	0
+2025-12-04	2025	49	/en	Sessions	1
+2025-12-04	2025	49	/objednavka	Active users	1
+2025-12-04	2025	49	/objednavka	Average engagement time per session	62
+2025-12-04	2025	49	/objednavka	New users	0
+2025-12-04	2025	49	/objednavka	Sessions	1
+2025-12-04	2025	49	/pl	Active users	2
+2025-12-04	2025	49	/pl	Average engagement time per session	235
+2025-12-04	2025	49	/pl	New users	2
+2025-12-04	2025	49	/pl	Sessions	2
+2025-12-04	2025	49	/pl/objednavka	Active users	1
+2025-12-04	2025	49	/pl/objednavka	Average engagement time per session	96
+2025-12-04	2025	49	/pl/objednavka	New users	1
+2025-12-04	2025	49	/pl/objednavka	Sessions	1
+2025-12-05	2025	49	/	Active users	10
+2025-12-05	2025	49	/	Average engagement time per session	69
+2025-12-05	2025	49	/	New users	9
+2025-12-05	2025	49	/	Sessions	12
+2025-12-05	2025	49	/de	Active users	2
+2025-12-05	2025	49	/de	Average engagement time per session	287
+2025-12-05	2025	49	/de	New users	2
+2025-12-05	2025	49	/de	Sessions	2
+2025-12-05	2025	49	/en	Active users	1
+2025-12-05	2025	49	/en	Average engagement time per session	13
+2025-12-05	2025	49	/en	New users	1
+2025-12-05	2025	49	/en	Sessions	1
+2025-12-05	2025	49	/objednavka	Active users	4
+2025-12-05	2025	49	/objednavka	Average engagement time per session	155
+2025-12-05	2025	49	/objednavka	New users	3
+2025-12-05	2025	49	/objednavka	Sessions	4
+2025-12-05	2025	49	/pl/objednavka	Active users	1
+2025-12-05	2025	49	/pl/objednavka	Average engagement time per session	19
+2025-12-05	2025	49	/pl/objednavka	New users	0
+2025-12-05	2025	49	/pl/objednavka	Sessions	2
+2025-12-06	2025	49	/	Active users	15
+2025-12-06	2025	49	/	Average engagement time per session	136
+2025-12-06	2025	49	/	New users	13
+2025-12-06	2025	49	/	Sessions	19
+2025-12-06	2025	49	/de	Active users	1
+2025-12-06	2025	49	/de	Average engagement time per session	193
+2025-12-06	2025	49	/de	New users	0
+2025-12-06	2025	49	/de	Sessions	2
+2025-12-06	2025	49	/en	Active users	3
+2025-12-06	2025	49	/en	Average engagement time per session	162
+2025-12-06	2025	49	/en	New users	3
+2025-12-06	2025	49	/en	Sessions	4
+2025-12-06	2025	49	/pl	Active users	2
+2025-12-06	2025	49	/pl	Average engagement time per session	18
+2025-12-06	2025	49	/pl	New users	2
+2025-12-06	2025	49	/pl	Sessions	2
+2025-12-07	2025	49	/	Active users	9
+2025-12-07	2025	49	/	Average engagement time per session	185
+2025-12-07	2025	49	/	New users	8
+2025-12-07	2025	49	/	Sessions	11
+2025-12-07	2025	49	/de	Active users	4
+2025-12-07	2025	49	/de	Average engagement time per session	165
+2025-12-07	2025	49	/de	New users	2
+2025-12-07	2025	49	/de	Sessions	6
+2025-12-07	2025	49	/de/objednavka	Active users	4
+2025-12-07	2025	49	/de/objednavka	Average engagement time per session	406
+2025-12-07	2025	49	/de/objednavka	New users	4
+2025-12-07	2025	49	/de/objednavka	Sessions	6
+2025-12-07	2025	49	/en	Active users	1
+2025-12-07	2025	49	/en	Average engagement time per session	3
+2025-12-07	2025	49	/en	New users	1
+2025-12-07	2025	49	/en	Sessions	1
+2025-12-07	2025	49	/objednavka	Active users	1
+2025-12-07	2025	49	/objednavka	Average engagement time per session	0
+2025-12-07	2025	49	/objednavka	New users	1
+2025-12-07	2025	49	/objednavka	Sessions	1
+2025-12-07	2025	49	/pl	Active users	1
+2025-12-07	2025	49	/pl	Average engagement time per session	222
+2025-12-07	2025	49	/pl	New users	1
+2025-12-07	2025	49	/pl	Sessions	1
+2025-12-08	2025	50	/	Active users	17
+2025-12-08	2025	50	/	Average engagement time per session	830
+2025-12-08	2025	50	/	New users	11
+2025-12-08	2025	50	/	Sessions	21
+2025-12-08	2025	50	/de	Active users	2
+2025-12-08	2025	50	/de	Average engagement time per session	451
+2025-12-08	2025	50	/de	New users	1
+2025-12-08	2025	50	/de	Sessions	4
+2025-12-08	2025	50	/de/objednavka	Active users	0
+2025-12-08	2025	50	/de/objednavka	Average engagement time per session	0
+2025-12-08	2025	50	/de/objednavka	New users	0
+2025-12-08	2025	50	/de/objednavka	Sessions	1
+2025-12-08	2025	50	/en	Active users	2
+2025-12-08	2025	50	/en	Average engagement time per session	130
+2025-12-08	2025	50	/en	New users	1
+2025-12-08	2025	50	/en	Sessions	2
+2025-12-08	2025	50	/objednavka	Active users	1
+2025-12-08	2025	50	/objednavka	Average engagement time per session	0
+2025-12-08	2025	50	/objednavka	New users	1
+2025-12-08	2025	50	/objednavka	Sessions	1
+2025-12-08	2025	50	/pl	Active users	2
+2025-12-08	2025	50	/pl	Average engagement time per session	246
+2025-12-08	2025	50	/pl	New users	2
+2025-12-08	2025	50	/pl	Sessions	2
+2025-12-09	2025	50	/	Active users	13
+2025-12-09	2025	50	/	Average engagement time per session	134
+2025-12-09	2025	50	/	New users	8
+2025-12-09	2025	50	/	Sessions	18
+2025-12-09	2025	50	/de	Active users	2
+2025-12-09	2025	50	/de	Average engagement time per session	184
+2025-12-09	2025	50	/de	New users	2
+2025-12-09	2025	50	/de	Sessions	2
+2025-12-09	2025	50	/en	Active users	1
+2025-12-09	2025	50	/en	Average engagement time per session	159
+2025-12-09	2025	50	/en	New users	1
+2025-12-09	2025	50	/en	Sessions	1
+2025-12-09	2025	50	/pl	Active users	0
+2025-12-09	2025	50	/pl	Average engagement time per session	0
+2025-12-09	2025	50	/pl	New users	0
+2025-12-09	2025	50	/pl	Sessions	2
+2025-12-10	2025	50	/	Active users	15
+2025-12-10	2025	50	/	Average engagement time per session	179
+2025-12-10	2025	50	/	New users	12
+2025-12-10	2025	50	/	Sessions	17
+2025-12-10	2025	50	/de	Active users	9
+2025-12-10	2025	50	/de	Average engagement time per session	439
+2025-12-10	2025	50	/de	New users	6
+2025-12-10	2025	50	/de	Sessions	11
+2025-12-10	2025	50	/en	Active users	1
+2025-12-10	2025	50	/en	Average engagement time per session	2
+2025-12-10	2025	50	/en	New users	1
+2025-12-10	2025	50	/en	Sessions	1
+2025-12-10	2025	50	/pl	Active users	1
+2025-12-10	2025	50	/pl	Average engagement time per session	1198
+2025-12-10	2025	50	/pl	New users	0
+2025-12-10	2025	50	/pl	Sessions	1
+2025-12-11	2025	50	/	Active users	10
+2025-12-11	2025	50	/	Average engagement time per session	550
+2025-12-11	2025	50	/	New users	6
+2025-12-11	2025	50	/	Sessions	11
+2025-12-11	2025	50	/de	Active users	1
+2025-12-11	2025	50	/de	Average engagement time per session	239
+2025-12-11	2025	50	/de	New users	1
+2025-12-11	2025	50	/de	Sessions	1
+2025-12-11	2025	50	/en	Active users	5
+2025-12-11	2025	50	/en	Average engagement time per session	180
+2025-12-11	2025	50	/en	New users	5
+2025-12-11	2025	50	/en	Sessions	6
+2025-12-11	2025	50	/pl	Active users	3
+2025-12-11	2025	50	/pl	Average engagement time per session	827
+2025-12-11	2025	50	/pl	New users	2
+2025-12-11	2025	50	/pl	Sessions	3
+2025-12-12	2025	50	/	Active users	11
+2025-12-12	2025	50	/	Average engagement time per session	734
+2025-12-12	2025	50	/	New users	6
+2025-12-12	2025	50	/	Sessions	16
+2025-12-12	2025	50	/de	Active users	1
+2025-12-12	2025	50	/de	Average engagement time per session	1053
+2025-12-12	2025	50	/de	New users	1
+2025-12-12	2025	50	/de	Sessions	2
+2025-12-12	2025	50	/en	Active users	2
+2025-12-12	2025	50	/en	Average engagement time per session	763
+2025-12-12	2025	50	/en	New users	2
+2025-12-12	2025	50	/en	Sessions	2
+2025-12-12	2025	50	/pl	Active users	1
+2025-12-12	2025	50	/pl	Average engagement time per session	1194
+2025-12-12	2025	50	/pl	New users	1
+2025-12-12	2025	50	/pl	Sessions	1
+2025-12-13	2025	50	/	Active users	9
+2025-12-13	2025	50	/	Average engagement time per session	226
+2025-12-13	2025	50	/	New users	8
+2025-12-13	2025	50	/	Sessions	10
+2025-12-13	2025	50	/de	Active users	2
+2025-12-13	2025	50	/de	Average engagement time per session	81
+2025-12-13	2025	50	/de	New users	2
+2025-12-13	2025	50	/de	Sessions	2
+2025-12-13	2025	50	/en	Active users	2
+2025-12-13	2025	50	/en	Average engagement time per session	95
+2025-12-13	2025	50	/en	New users	2
+2025-12-13	2025	50	/en	Sessions	2
+2025-12-13	2025	50	/pl	Active users	1
+2025-12-13	2025	50	/pl	Average engagement time per session	1314
+2025-12-13	2025	50	/pl	New users	0
+2025-12-13	2025	50	/pl	Sessions	1
+2025-12-14	2025	50	/	Active users	18
+2025-12-14	2025	50	/	Average engagement time per session	365
+2025-12-14	2025	50	/	New users	17
+2025-12-14	2025	50	/	Sessions	19
+2025-12-14	2025	50	/de	Active users	3
+2025-12-14	2025	50	/de	Average engagement time per session	109
+2025-12-14	2025	50	/de	New users	1
+2025-12-14	2025	50	/de	Sessions	3
+2025-12-14	2025	50	/en	Active users	2
+2025-12-14	2025	50	/en	Average engagement time per session	446
+2025-12-14	2025	50	/en	New users	2
+2025-12-14	2025	50	/en	Sessions	2
+2025-12-14	2025	50	/pl	Active users	8
+2025-12-14	2025	50	/pl	Average engagement time per session	390
+2025-12-14	2025	50	/pl	New users	5
+2025-12-14	2025	50	/pl	Sessions	8
+2025-12-15	2025	51	/	Active users	17
+2025-12-15	2025	51	/	Average engagement time per session	369
+2025-12-15	2025	51	/	New users	14
+2025-12-15	2025	51	/	Sessions	21
+2025-12-15	2025	51	/de	Active users	6
+2025-12-15	2025	51	/de	Average engagement time per session	408
+2025-12-15	2025	51	/de	New users	5
+2025-12-15	2025	51	/de	Sessions	8
+2025-12-15	2025	51	/en	Active users	2
+2025-12-15	2025	51	/en	Average engagement time per session	97
+2025-12-15	2025	51	/en	New users	1
+2025-12-15	2025	51	/en	Sessions	3
+2025-12-15	2025	51	/pl	Active users	3
+2025-12-15	2025	51	/pl	Average engagement time per session	431
+2025-12-15	2025	51	/pl	New users	2
+2025-12-15	2025	51	/pl	Sessions	4
+2025-12-16	2025	51	/	Active users	14
+2025-12-16	2025	51	/	Average engagement time per session	675
+2025-12-16	2025	51	/	New users	9
+2025-12-16	2025	51	/	Sessions	17
+2025-12-16	2025	51	/de	Active users	1
+2025-12-16	2025	51	/de	Average engagement time per session	52
+2025-12-16	2025	51	/de	New users	1
+2025-12-16	2025	51	/de	Sessions	3
+2025-12-16	2025	51	/en	Active users	2
+2025-12-16	2025	51	/en	Average engagement time per session	14
+2025-12-16	2025	51	/en	New users	1
+2025-12-16	2025	51	/en	Sessions	2
+2025-12-16	2025	51	/pl	Active users	4
+2025-12-16	2025	51	/pl	Average engagement time per session	456
+2025-12-16	2025	51	/pl	New users	3
+2025-12-16	2025	51	/pl	Sessions	4
+2025-12-17	2025	51	/	Active users	11
+2025-12-17	2025	51	/	Average engagement time per session	235
+2025-12-17	2025	51	/	New users	7
+2025-12-17	2025	51	/	Sessions	14
+2025-12-17	2025	51	/de	Active users	2
+2025-12-17	2025	51	/de	Average engagement time per session	49
+2025-12-17	2025	51	/de	New users	2
+2025-12-17	2025	51	/de	Sessions	2
+2025-12-17	2025	51	/en	Active users	2
+2025-12-17	2025	51	/en	Average engagement time per session	390
+2025-12-17	2025	51	/en	New users	2
+2025-12-17	2025	51	/en	Sessions	7
+2025-12-17	2025	51	/pl	Active users	1
+2025-12-17	2025	51	/pl	Average engagement time per session	0
+2025-12-17	2025	51	/pl	New users	0
+2025-12-17	2025	51	/pl	Sessions	1
+2025-12-18	2025	51	/	Active users	15
+2025-12-18	2025	51	/	Average engagement time per session	257
+2025-12-18	2025	51	/	New users	12
+2025-12-18	2025	51	/	Sessions	16
+2025-12-18	2025	51	/de	Active users	2
+2025-12-18	2025	51	/de	Average engagement time per session	24
+2025-12-18	2025	51	/de	New users	2
+2025-12-18	2025	51	/de	Sessions	2
+2025-12-18	2025	51	/en	Active users	1
+2025-12-18	2025	51	/en	Average engagement time per session	5
+2025-12-18	2025	51	/en	New users	0
+2025-12-18	2025	51	/en	Sessions	2
+2025-12-18	2025	51	/pl	Active users	1
+2025-12-18	2025	51	/pl	Average engagement time per session	6
+2025-12-18	2025	51	/pl	New users	1
+2025-12-18	2025	51	/pl	Sessions	2
+2025-12-19	2025	51	/	Active users	6
+2025-12-19	2025	51	/	Average engagement time per session	133
+2025-12-19	2025	51	/	New users	5
+2025-12-19	2025	51	/	Sessions	7
+2025-12-19	2025	51	/en	Active users	1
+2025-12-19	2025	51	/en	Average engagement time per session	149
+2025-12-19	2025	51	/en	New users	0
+2025-12-19	2025	51	/en	Sessions	2
+2025-12-20	2025	51	/	Active users	19
+2025-12-20	2025	51	/	Average engagement time per session	306
+2025-12-20	2025	51	/	New users	18
+2025-12-20	2025	51	/	Sessions	21
+2025-12-20	2025	51	/de	Active users	1
+2025-12-20	2025	51	/de	Average engagement time per session	11
+2025-12-20	2025	51	/de	New users	1
+2025-12-20	2025	51	/de	Sessions	1
+2025-12-20	2025	51	/en	Active users	3
+2025-12-20	2025	51	/en	Average engagement time per session	19
+2025-12-20	2025	51	/en	New users	1
+2025-12-20	2025	51	/en	Sessions	3
+2025-12-20	2025	51	/pl	Active users	2
+2025-12-20	2025	51	/pl	Average engagement time per session	764
+2025-12-20	2025	51	/pl	New users	2
+2025-12-20	2025	51	/pl	Sessions	2
+2025-12-21	2025	51	/	Active users	31
+2025-12-21	2025	51	/	Average engagement time per session	185
+2025-12-21	2025	51	/	New users	27
+2025-12-21	2025	51	/	Sessions	33
+2025-12-21	2025	51	/de	Active users	1
+2025-12-21	2025	51	/de	Average engagement time per session	0
+2025-12-21	2025	51	/de	New users	1
+2025-12-21	2025	51	/de	Sessions	1
+2025-12-21	2025	51	/en	Active users	1
+2025-12-21	2025	51	/en	Average engagement time per session	430
+2025-12-21	2025	51	/en	New users	1
+2025-12-21	2025	51	/en	Sessions	1
+2025-12-21	2025	51	/pl	Active users	1
+2025-12-21	2025	51	/pl	Average engagement time per session	23
+2025-12-21	2025	51	/pl	New users	1
+2025-12-21	2025	51	/pl	Sessions	1
+2025-12-22	2025	52	/	Active users	18
+2025-12-22	2025	52	/	Average engagement time per session	197
+2025-12-22	2025	52	/	New users	13
+2025-12-22	2025	52	/	Sessions	21
+2025-12-22	2025	52	/en	Active users	3
+2025-12-22	2025	52	/en	Average engagement time per session	0
+2025-12-22	2025	52	/en	New users	3
+2025-12-22	2025	52	/en	Sessions	3
+2025-12-22	2025	52	/pl	Active users	1
+2025-12-22	2025	52	/pl	Average engagement time per session	81
+2025-12-22	2025	52	/pl	New users	1
+2025-12-22	2025	52	/pl	Sessions	1
+2025-12-23	2025	52	/	Active users	15
+2025-12-23	2025	52	/	Average engagement time per session	94
+2025-12-23	2025	52	/	New users	14
+2025-12-23	2025	52	/	Sessions	15
+2025-12-23	2025	52	/de	Active users	3
+2025-12-23	2025	52	/de	Average engagement time per session	84
+2025-12-23	2025	52	/de	New users	2
+2025-12-23	2025	52	/de	Sessions	3
+2025-12-23	2025	52	/en	Active users	2
+2025-12-23	2025	52	/en	Average engagement time per session	98
+2025-12-23	2025	52	/en	New users	1
+2025-12-23	2025	52	/en	Sessions	2
+2025-12-24	2025	52	/	Active users	16
+2025-12-24	2025	52	/	Average engagement time per session	535
+2025-12-24	2025	52	/	New users	13
+2025-12-24	2025	52	/	Sessions	17
+2025-12-24	2025	52	/de	Active users	2
+2025-12-24	2025	52	/de	Average engagement time per session	2
+2025-12-24	2025	52	/de	New users	2
+2025-12-24	2025	52	/de	Sessions	2
+2025-12-24	2025	52	/en	Active users	5
+2025-12-24	2025	52	/en	Average engagement time per session	203
+2025-12-24	2025	52	/en	New users	5
+2025-12-24	2025	52	/en	Sessions	5
+2025-12-24	2025	52	/pl	Active users	2
+2025-12-24	2025	52	/pl	Average engagement time per session	2
+2025-12-24	2025	52	/pl	New users	2
+2025-12-24	2025	52	/pl	Sessions	2
+2025-12-25	2025	52	/	Active users	34
+2025-12-25	2025	52	/	Average engagement time per session	180
+2025-12-25	2025	52	/	New users	29
+2025-12-25	2025	52	/	Sessions	35
+2025-12-25	2025	52	/en	Active users	0
+2025-12-25	2025	52	/en	Average engagement time per session	0
+2025-12-25	2025	52	/en	New users	0
+2025-12-25	2025	52	/en	Sessions	1
+2025-12-25	2025	52	/pl	Active users	4
+2025-12-25	2025	52	/pl	Average engagement time per session	253
+2025-12-25	2025	52	/pl	New users	4
+2025-12-25	2025	52	/pl	Sessions	5
+2025-12-26	2025	52	/	Active users	35
+2025-12-26	2025	52	/	Average engagement time per session	261
+2025-12-26	2025	52	/	New users	30
+2025-12-26	2025	52	/	Sessions	37
+2025-12-26	2025	52	/de	Active users	7
+2025-12-26	2025	52	/de	Average engagement time per session	548
+2025-12-26	2025	52	/de	New users	4
+2025-12-26	2025	52	/de	Sessions	7
+2025-12-26	2025	52	/de/objednavka	Active users	0
+2025-12-26	2025	52	/de/objednavka	Average engagement time per session	0
+2025-12-26	2025	52	/de/objednavka	New users	0
+2025-12-26	2025	52	/de/objednavka	Sessions	1
+2025-12-26	2025	52	/en	Active users	4
+2025-12-26	2025	52	/en	Average engagement time per session	254
+2025-12-26	2025	52	/en	New users	3
+2025-12-26	2025	52	/en	Sessions	5
+2025-12-26	2025	52	/pl	Active users	4
+2025-12-26	2025	52	/pl	Average engagement time per session	62
+2025-12-26	2025	52	/pl	New users	4
+2025-12-26	2025	52	/pl	Sessions	5
+2025-12-27	2025	52	/	Active users	49
+2025-12-27	2025	52	/	Average engagement time per session	273
+2025-12-27	2025	52	/	New users	44
+2025-12-27	2025	52	/	Sessions	60
+2025-12-27	2025	52	/de	Active users	5
+2025-12-27	2025	52	/de	Average engagement time per session	141
+2025-12-27	2025	52	/de	New users	4
+2025-12-27	2025	52	/de	Sessions	5
+2025-12-27	2025	52	/en	Active users	3
+2025-12-27	2025	52	/en	Average engagement time per session	18
+2025-12-27	2025	52	/en	New users	3
+2025-12-27	2025	52	/en	Sessions	3
+2025-12-27	2025	52	/pl	Active users	5
+2025-12-27	2025	52	/pl	Average engagement time per session	250
+2025-12-27	2025	52	/pl	New users	4
+2025-12-27	2025	52	/pl	Sessions	5
+2025-12-28	2025	52	/	Active users	52
+2025-12-28	2025	52	/	Average engagement time per session	221
+2025-12-28	2025	52	/	New users	46
+2025-12-28	2025	52	/	Sessions	60
+2025-12-28	2025	52	/de	Active users	20
+2025-12-28	2025	52	/de	Average engagement time per session	39
+2025-12-28	2025	52	/de	New users	16
+2025-12-28	2025	52	/de	Sessions	21
+2025-12-28	2025	52	/en	Active users	2
+2025-12-28	2025	52	/en	Average engagement time per session	53
+2025-12-28	2025	52	/en	New users	2
+2025-12-28	2025	52	/en	Sessions	2
+2025-12-28	2025	52	/pl	Active users	6
+2025-12-28	2025	52	/pl	Average engagement time per session	106
+2025-12-28	2025	52	/pl	New users	5
+2025-12-28	2025	52	/pl	Sessions	9
+2025-12-29	2026	1	/	Active users	34
+2025-12-29	2026	1	/	Average engagement time per session	331
+2025-12-29	2026	1	/	New users	28
+2025-12-29	2026	1	/	Sessions	40
+2025-12-29	2026	1	/de	Active users	12
+2025-12-29	2026	1	/de	Average engagement time per session	123
+2025-12-29	2026	1	/de	New users	10
+2025-12-29	2026	1	/de	Sessions	14
+2025-12-29	2026	1	/en	Active users	3
+2025-12-29	2026	1	/en	Average engagement time per session	228
+2025-12-29	2026	1	/en	New users	3
+2025-12-29	2026	1	/en	Sessions	3
+2025-12-29	2026	1	/pl	Active users	4
+2025-12-29	2026	1	/pl	Average engagement time per session	68
+2025-12-29	2026	1	/pl	New users	4
+2025-12-29	2026	1	/pl	Sessions	5
+2025-12-30	2026	1	/	Active users	43
+2025-12-30	2026	1	/	Average engagement time per session	254
+2025-12-30	2026	1	/	New users	37
+2025-12-30	2026	1	/	Sessions	53
+2025-12-30	2026	1	/de	Active users	2
+2025-12-30	2026	1	/de	Average engagement time per session	219
+2025-12-30	2026	1	/de	New users	1
+2025-12-30	2026	1	/de	Sessions	4
+2025-12-30	2026	1	/en	Active users	5
+2025-12-30	2026	1	/en	Average engagement time per session	346
+2025-12-30	2026	1	/en	New users	2
+2025-12-30	2026	1	/en	Sessions	5
+2025-12-30	2026	1	/pl	Active users	5
+2025-12-30	2026	1	/pl	Average engagement time per session	267
+2025-12-30	2026	1	/pl	New users	4
+2025-12-30	2026	1	/pl	Sessions	6
+2025-12-31	2026	1	/	Active users	31
+2025-12-31	2026	1	/	Average engagement time per session	202
+2025-12-31	2026	1	/	New users	27
+2025-12-31	2026	1	/	Sessions	33
+2025-12-31	2026	1	/de	Active users	3
+2025-12-31	2026	1	/de	Average engagement time per session	138
+2025-12-31	2026	1	/de	New users	2
+2025-12-31	2026	1	/de	Sessions	3
+2025-12-31	2026	1	/en	Active users	1
+2025-12-31	2026	1	/en	Average engagement time per session	11
+2025-12-31	2026	1	/en	New users	1
+2025-12-31	2026	1	/en	Sessions	1
+2025-12-31	2026	1	/pl	Active users	1
+2025-12-31	2026	1	/pl	Average engagement time per session	99
+2025-12-31	2026	1	/pl	New users	1
+2025-12-31	2026	1	/pl	Sessions	1
+2026-01-01	2026	1	/	Active users	45
+2026-01-01	2026	1	/	Average engagement time per session	216
+2026-01-01	2026	1	/	New users	41
+2026-01-01	2026	1	/	Sessions	48
+2026-01-01	2026	1	/de	Active users	4
+2026-01-01	2026	1	/de	Average engagement time per session	195
+2026-01-01	2026	1	/de	New users	4
+2026-01-01	2026	1	/de	Sessions	4
+2026-01-01	2026	1	/en	Active users	5
+2026-01-01	2026	1	/en	Average engagement time per session	325
+2026-01-01	2026	1	/en	New users	4
+2026-01-01	2026	1	/en	Sessions	5
+2026-01-01	2026	1	/pl	Active users	5
+2026-01-01	2026	1	/pl	Average engagement time per session	67
+2026-01-01	2026	1	/pl	New users	5
+2026-01-01	2026	1	/pl	Sessions	5
+2026-01-02	2026	1	/	Active users	61
+2026-01-02	2026	1	/	Average engagement time per session	281
+2026-01-02	2026	1	/	New users	51
+2026-01-02	2026	1	/	Sessions	67
+2026-01-02	2026	1	/de	Active users	4
+2026-01-02	2026	1	/de	Average engagement time per session	118
+2026-01-02	2026	1	/de	New users	3
+2026-01-02	2026	1	/de	Sessions	6
+2026-01-02	2026	1	/en	Active users	4
+2026-01-02	2026	1	/en	Average engagement time per session	292
+2026-01-02	2026	1	/en	New users	4
+2026-01-02	2026	1	/en	Sessions	5
+2026-01-02	2026	1	/pl	Active users	13
+2026-01-02	2026	1	/pl	Average engagement time per session	312
+2026-01-02	2026	1	/pl	New users	12
+2026-01-02	2026	1	/pl	Sessions	13
+2026-01-03	2026	1	/	Active users	51
+2026-01-03	2026	1	/	Average engagement time per session	242
+2026-01-03	2026	1	/	New users	43
+2026-01-03	2026	1	/	Sessions	57
+2026-01-03	2026	1	/de	Active users	10
+2026-01-03	2026	1	/de	Average engagement time per session	160
+2026-01-03	2026	1	/de	New users	10
+2026-01-03	2026	1	/de	Sessions	12
+2026-01-03	2026	1	/en	Active users	6
+2026-01-03	2026	1	/en	Average engagement time per session	326
+2026-01-03	2026	1	/en	New users	4
+2026-01-03	2026	1	/en	Sessions	6
+2026-01-03	2026	1	/pl	Active users	7
+2026-01-03	2026	1	/pl	Average engagement time per session	651
+2026-01-03	2026	1	/pl	New users	6
+2026-01-03	2026	1	/pl	Sessions	7
+2026-01-04	2026	1	/	Active users	53
+2026-01-04	2026	1	/	Average engagement time per session	206
+2026-01-04	2026	1	/	New users	41
+2026-01-04	2026	1	/	Sessions	61
+2026-01-04	2026	1	/de	Active users	12
+2026-01-04	2026	1	/de	Average engagement time per session	218
+2026-01-04	2026	1	/de	New users	11
+2026-01-04	2026	1	/de	Sessions	12
+2026-01-04	2026	1	/en	Active users	5
+2026-01-04	2026	1	/en	Average engagement time per session	186
+2026-01-04	2026	1	/en	New users	3
+2026-01-04	2026	1	/en	Sessions	5
+2026-01-04	2026	1	/pl	Active users	6
+2026-01-04	2026	1	/pl	Average engagement time per session	48
+2026-01-04	2026	1	/pl	New users	4
+2026-01-04	2026	1	/pl	Sessions	6
+2026-01-05	2026	2	/	Active users	54
+2026-01-05	2026	2	/	Average engagement time per session	248
+2026-01-05	2026	2	/	New users	41
+2026-01-05	2026	2	/	Sessions	60
+2026-01-05	2026	2	/de	Active users	3
+2026-01-05	2026	2	/de	Average engagement time per session	7
+2026-01-05	2026	2	/de	New users	1
+2026-01-05	2026	2	/de	Sessions	6
+2026-01-05	2026	2	/en	Active users	2
+2026-01-05	2026	2	/en	Average engagement time per session	307
+2026-01-05	2026	2	/en	New users	2
+2026-01-05	2026	2	/en	Sessions	2
+2026-01-05	2026	2	/pl	Active users	13
+2026-01-05	2026	2	/pl	Average engagement time per session	372
+2026-01-05	2026	2	/pl	New users	12
+2026-01-05	2026	2	/pl	Sessions	15
+2026-01-06	2026	2	/	Active users	58
+2026-01-06	2026	2	/	Average engagement time per session	326
+2026-01-06	2026	2	/	New users	50
+2026-01-06	2026	2	/	Sessions	63
+2026-01-06	2026	2	/de	Active users	1
+2026-01-06	2026	2	/de	Average engagement time per session	36
+2026-01-06	2026	2	/de	New users	1
+2026-01-06	2026	2	/de	Sessions	2
+2026-01-06	2026	2	/en	Active users	5
+2026-01-06	2026	2	/en	Average engagement time per session	3
+2026-01-06	2026	2	/en	New users	4
+2026-01-06	2026	2	/en	Sessions	5
+2026-01-06	2026	2	/pl	Active users	5
+2026-01-06	2026	2	/pl	Average engagement time per session	106
+2026-01-06	2026	2	/pl	New users	3
+2026-01-06	2026	2	/pl	Sessions	5
+2026-01-07	2026	2	/	Active users	42
+2026-01-07	2026	2	/	Average engagement time per session	212
+2026-01-07	2026	2	/	New users	37
+2026-01-07	2026	2	/	Sessions	49
+2026-01-07	2026	2	/de	Active users	15
+2026-01-07	2026	2	/de	Average engagement time per session	149
+2026-01-07	2026	2	/de	New users	13
+2026-01-07	2026	2	/de	Sessions	16
+2026-01-07	2026	2	/en	Active users	3
+2026-01-07	2026	2	/en	Average engagement time per session	505
+2026-01-07	2026	2	/en	New users	3
+2026-01-07	2026	2	/en	Sessions	5
+2026-01-07	2026	2	/pl	Active users	6
+2026-01-07	2026	2	/pl	Average engagement time per session	55
+2026-01-07	2026	2	/pl	New users	5
+2026-01-07	2026	2	/pl	Sessions	6
+2026-01-08	2026	2	/	Active users	50
+2026-01-08	2026	2	/	Average engagement time per session	170
+2026-01-08	2026	2	/	New users	44
+2026-01-08	2026	2	/	Sessions	54
+2026-01-08	2026	2	/de	Active users	4
+2026-01-08	2026	2	/de	Average engagement time per session	245
+2026-01-08	2026	2	/de	New users	1
+2026-01-08	2026	2	/de	Sessions	7
+2026-01-08	2026	2	/en	Active users	4
+2026-01-08	2026	2	/en	Average engagement time per session	38
+2026-01-08	2026	2	/en	New users	4
+2026-01-08	2026	2	/en	Sessions	6
+2026-01-08	2026	2	/pl	Active users	7
+2026-01-08	2026	2	/pl	Average engagement time per session	266
+2026-01-08	2026	2	/pl	New users	7
+2026-01-08	2026	2	/pl	Sessions	7
+2026-01-09	2026	2	/	Active users	31
+2026-01-09	2026	2	/	Average engagement time per session	275
+2026-01-09	2026	2	/	New users	24
+2026-01-09	2026	2	/	Sessions	40
+2026-01-09	2026	2	/de	Active users	10
+2026-01-09	2026	2	/de	Average engagement time per session	295
+2026-01-09	2026	2	/de	New users	8
+2026-01-09	2026	2	/de	Sessions	13
+2026-01-09	2026	2	/en	Active users	3
+2026-01-09	2026	2	/en	Average engagement time per session	38
+2026-01-09	2026	2	/en	New users	2
+2026-01-09	2026	2	/en	Sessions	4
+2026-01-09	2026	2	/pl	Active users	10
+2026-01-09	2026	2	/pl	Average engagement time per session	199
+2026-01-09	2026	2	/pl	New users	10
+2026-01-09	2026	2	/pl	Sessions	11
+2026-01-10	2026	2	/	Active users	57
+2026-01-10	2026	2	/	Average engagement time per session	281
+2026-01-10	2026	2	/	New users	51
+2026-01-10	2026	2	/	Sessions	64
+2026-01-10	2026	2	/de	Active users	12
+2026-01-10	2026	2	/de	Average engagement time per session	201
+2026-01-10	2026	2	/de	New users	9
+2026-01-10	2026	2	/de	Sessions	13
+2026-01-10	2026	2	/en	Active users	5
+2026-01-10	2026	2	/en	Average engagement time per session	124
+2026-01-10	2026	2	/en	New users	5
+2026-01-10	2026	2	/en	Sessions	5
+2026-01-10	2026	2	/pl	Active users	7
+2026-01-10	2026	2	/pl	Average engagement time per session	474
+2026-01-10	2026	2	/pl	New users	3
+2026-01-10	2026	2	/pl	Sessions	7
+2026-01-11	2026	2	/	Active users	47
+2026-01-11	2026	2	/	Average engagement time per session	288
+2026-01-11	2026	2	/	New users	42
+2026-01-11	2026	2	/	Sessions	54
+2026-01-11	2026	2	/de	Active users	11
+2026-01-11	2026	2	/de	Average engagement time per session	320
+2026-01-11	2026	2	/de	New users	11
+2026-01-11	2026	2	/de	Sessions	11
+2026-01-11	2026	2	/en	Active users	4
+2026-01-11	2026	2	/en	Average engagement time per session	232
+2026-01-11	2026	2	/en	New users	3
+2026-01-11	2026	2	/en	Sessions	4
+2026-01-11	2026	2	/pl	Active users	4
+2026-01-11	2026	2	/pl	Average engagement time per session	596
+2026-01-11	2026	2	/pl	New users	4
+2026-01-11	2026	2	/pl	Sessions	5
+2026-01-12	2026	3	/	Active users	42
+2026-01-12	2026	3	/	Average engagement time per session	324
+2026-01-12	2026	3	/	New users	37
+2026-01-12	2026	3	/	Sessions	49
+2026-01-12	2026	3	/de	Active users	1
+2026-01-12	2026	3	/de	Average engagement time per session	0
+2026-01-12	2026	3	/de	New users	1
+2026-01-12	2026	3	/de	Sessions	1
+2026-01-12	2026	3	/en	Active users	5
+2026-01-12	2026	3	/en	Average engagement time per session	87
+2026-01-12	2026	3	/en	New users	5
+2026-01-12	2026	3	/en	Sessions	8
+2026-01-12	2026	3	/pl	Active users	3
+2026-01-12	2026	3	/pl	Average engagement time per session	92
+2026-01-12	2026	3	/pl	New users	2
+2026-01-12	2026	3	/pl	Sessions	4
+2026-01-13	2026	3	/	Active users	1
+2026-01-13	2026	3	/	Average engagement time per session	81
+2026-01-13	2026	3	/	New users	1
+2026-01-13	2026	3	/	Sessions	2
+2026-01-13	2026	3	/en	Active users	1
+2026-01-13	2026	3	/en	Average engagement time per session	806
+2026-01-13	2026	3	/en	New users	0
+2026-01-13	2026	3	/en	Sessions	1

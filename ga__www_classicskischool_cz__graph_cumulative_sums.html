@@ -32,18 +32,22 @@
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h1 id="mainTitle" class="text-2xl font-bold">Analytics Comparison</h1>
-                <div class="flex gap-6 mt-2">
+                <div class="flex gap-6 mt-2 flex-wrap">
                     <div class="flex items-center gap-2">
                         <div class="w-3 h-3" style="background-color: #f97316"></div>
-                        <span>2023 Dec to 2024 Mar real values</span>
+                        <span>2023 Dec - 2024 Mar</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <div class="w-3 h-3 border border-orange-500" style="background-color: #f97316"></div>
-                        <span>2023 Dec to 2024 Mar real values + 20% weather conditions buffer</span>
+                        <div class="w-3 h-3 border border-orange-500" style="background-color: #f97316; opacity: 0.5"></div>
+                        <span>+20% buffer</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="w-3 h-3" style="background-color: #22c55e"></div>
-                        <span>2024 Dec to 2025 Mar real values</span>
+                        <span>2024 Dec - 2025 Mar</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3" style="background-color: #3b82f6"></div>
+                        <span>2025 Dec - 2026 Mar (current)</span>
                     </div>
                 </div>
             </div>
@@ -95,6 +99,7 @@
         const COLORS = {
             period1: '#f97316',
             period2: '#22c55e',
+            period3: '#3b82f6',
             buffer: '#f97316'
         };
 
@@ -108,11 +113,21 @@
                 start: new Date('2024-12-01'),
                 end: new Date('2025-03-31'),
                 label: '2024 Dec - 2025 Mar'
+            },
+            period3: {
+                start: new Date('2025-12-01'),
+                end: new Date('2026-03-31'),
+                label: '2025 Dec - 2026 Mar'
             }
         };
 
-        function normalizePeriod2Date(date) {
-            return new Date(date.getFullYear() - 1, date.getMonth(), date.getDate());
+        function normalizeToBasePeriod(date, period) {
+            if (period === 'period2') {
+                return new Date(date.getFullYear() - 1, date.getMonth(), date.getDate());
+            } else if (period === 'period3') {
+                return new Date(date.getFullYear() - 2, date.getMonth(), date.getDate());
+            }
+            return date;
         }
 
         function createChart(data, containerId, title) {
@@ -140,7 +155,7 @@
                 .range([0, width]);
 
             const y = d3.scaleLinear()
-                .domain([0, d3.max([...data.period1, ...data.period2, ...bufferData], d => d.value)])
+                .domain([0, d3.max([...data.period1, ...data.period2, ...(data.period3 || []), ...bufferData], d => d.value)])
                 .nice()
                 .range([height, 0]);
 
@@ -202,6 +217,27 @@
                 .attr('stroke', 'white')
                 .attr('stroke-width', 1);
 
+            // Period 3 line and dots
+            if (data.period3 && data.period3.length > 0) {
+                svg.append('path')
+                    .datum(data.period3)
+                    .attr('fill', 'none')
+                    .attr('stroke', COLORS.period3)
+                    .attr('stroke-width', 2)
+                    .attr('d', line);
+
+                svg.selectAll('dot-period3')
+                    .data(data.period3)
+                    .enter()
+                    .append('circle')
+                    .attr('cx', d => x(d.normalizedDate))
+                    .attr('cy', d => y(d.value))
+                    .attr('r', 3)
+                    .attr('fill', COLORS.period3)
+                    .attr('stroke', 'white')
+                    .attr('stroke-width', 1);
+            }
+
             const tooltip = d3.select(`#${containerId}`)
                 .append('div')
                 .attr('class', 'chart-tooltip');
@@ -242,23 +278,26 @@
                 .on('mousemove', (event) => {
                     const [x0] = d3.pointer(event);
                     const x1 = x.invert(x0);
-                    
+
                     const bisectDate = d3.bisector(d => d.normalizedDate).left;
                     const i1 = bisectDate(data.period1, x1, 1);
                     const i2 = bisectDate(data.period2, x1, 1);
-                    
-                    const d1 = i1 > 0 ? data.period1[i1 - 1] : null;
-                    const d2 = i2 > 0 ? data.period2[i2 - 1] : null;
-                    
-                    if (d1 || d2) {
+                    const i3 = data.period3 ? bisectDate(data.period3, x1, 1) : 0;
+
+                    const p1 = i1 > 0 ? data.period1[i1 - 1] : null;
+                    const p2 = i2 > 0 ? data.period2[i2 - 1] : null;
+                    const p3 = (data.period3 && i3 > 0) ? data.period3[i3 - 1] : null;
+
+                    if (p1 || p2 || p3) {
                         const date = x1;
-                        const bufferValue = d1 ? d1.value * 1.2 : null;
-                        
+                        const bufferValue = p1 ? p1.value * 1.2 : null;
+
                         tooltip.html(`
                             <div class="font-bold">${date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</div>
-                            ${d1 ? `<div style="color: ${COLORS.period1}">${TIME_PERIODS.period1.label}: ${d1.value.toLocaleString()}</div>` : ''}
-                            ${d1 ? `<div style="color: ${COLORS.buffer}">Buffer (+20%): ${Math.round(bufferValue).toLocaleString()}</div>` : ''}
-                            ${d2 ? `<div style="color: ${COLORS.period2}">${TIME_PERIODS.period2.label}: ${d2.value.toLocaleString()}</div>` : ''}
+                            ${p1 ? `<div style="color: ${COLORS.period1}">${TIME_PERIODS.period1.label}: ${p1.value.toLocaleString()}</div>` : ''}
+                            ${p1 ? `<div style="color: ${COLORS.buffer}">Buffer (+20%): ${Math.round(bufferValue).toLocaleString()}</div>` : ''}
+                            ${p2 ? `<div style="color: ${COLORS.period2}">${TIME_PERIODS.period2.label}: ${p2.value.toLocaleString()}</div>` : ''}
+                            ${p3 ? `<div style="color: ${COLORS.period3}">${TIME_PERIODS.period3.label}: ${p3.value.toLocaleString()}</div>` : ''}
                         `)
                             .style('left', `${event.pageX + 10}px`)
                             .style('top', `${event.pageY - 10}px`);
@@ -267,28 +306,46 @@
         }
 
         const DATA_CONFIG = {
-            dataPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___auto_full/method=auto_full/source=goldsport/goldsport__ga_classicskischool_daily_metrix.tsv'
+            historyPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___auto_full/method=auto_full/source=goldsport/goldsport__ga_classicskischool_daily_metrix.tsv',
+            currentPath: 'goldsport__ga_classicskischool_daily_metrix___gsp_dataset___hand_increment/method=hand_increment/source=goldsport/ga_classicskischool-current-season.tsv'
         };
 
         async function loadData() {
             try {
-                console.log('Attempting to load data from:', DATA_CONFIG.dataPath);
-                
-                const response = await fetch(DATA_CONFIG.dataPath);
-                if (!response.ok) {
-                    console.error(`Failed to load data from ${DATA_CONFIG.dataPath}`);
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const text = await response.text();
-                
-                const parsed = Papa.parse(text, {
-                    header: true,
-                    skipEmptyLines: true,
-                    delimiter: '\t',
-                    dynamicTyping: true
-                });
+                // Load both history and current season data
+                const [historyResponse, currentResponse] = await Promise.all([
+                    fetch(DATA_CONFIG.historyPath),
+                    fetch(DATA_CONFIG.currentPath)
+                ]);
 
-                return parsed.data;
+                let allData = [];
+
+                if (historyResponse.ok) {
+                    const historyText = await historyResponse.text();
+                    const historyParsed = Papa.parse(historyText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        delimiter: '\t',
+                        dynamicTyping: true
+                    });
+                    allData = allData.concat(historyParsed.data);
+                }
+
+                if (currentResponse.ok) {
+                    const currentText = await currentResponse.text();
+                    const currentParsed = Papa.parse(currentText, {
+                        header: true,
+                        skipEmptyLines: true,
+                        delimiter: '\t',
+                        dynamicTyping: true
+                    });
+                    allData = allData.concat(currentParsed.data);
+                }
+
+                // Remove duplicates by date+code+type, keeping latest
+                const uniqueData = _.uniqBy(allData.reverse(), row => `${row.date}-${row.code}-${row.type}`).reverse();
+
+                return uniqueData;
             } catch (error) {
                 console.error('Error loading data:', error);
                 return [];
@@ -297,17 +354,17 @@
 
         function processData(data, timeframe, pageType, selectedMetric) {
             const paths = Object.values(LANG_PATHS).map(p => p[pageType]);
-            
-            function processForPeriod(period) {
+
+            function processForPeriod(period, periodName) {
                 const periodData = data.filter(row => {
                     const rowDate = new Date(row.date);
-                    return rowDate >= period.start && 
-                           rowDate <= period.end && 
+                    return rowDate >= period.start &&
+                           rowDate <= period.end &&
                            paths.includes(row.code) &&
                            row.type === selectedMetric;
                 });
 
-                const groupData = timeframe === 'weekly' 
+                const groupData = timeframe === 'weekly'
                     ? _.groupBy(periodData, row => {
                         const date = new Date(row.date);
                         const weekNum = Math.ceil((date - new Date(date.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000));
@@ -325,9 +382,7 @@
                         }
 
                         const date = new Date(rows[0].date);
-                        const normalizedDate = date >= TIME_PERIODS.period2.start 
-                            ? normalizePeriod2Date(date)
-                            : date;
+                        const normalizedDate = normalizeToBasePeriod(date, periodName);
 
                         return {
                             date,
@@ -340,8 +395,9 @@
             }
 
             return {
-                period1: processForPeriod(TIME_PERIODS.period1),
-                period2: processForPeriod(TIME_PERIODS.period2)
+                period1: processForPeriod(TIME_PERIODS.period1, 'period1'),
+                period2: processForPeriod(TIME_PERIODS.period2, 'period2'),
+                period3: processForPeriod(TIME_PERIODS.period3, 'period3')
             };
         }
 

@@ -1,0 +1,17 @@
+Processing completed at: 2026-01-18 06:34:06
+Input file: goldsport__orders___gsp_dataset___hand_increment/method=hand_increment/source=goldsport/orders-2026-01-18-063404.tsv
+Date range: 2026-01-18_2026-01-18
+Total unique orders processed: 189
+Total valid phone numbers found: 184
+Total unique phone numbers: 127
+Total invalid phone numbers: 11
+
+Phone numbers by country:
+  CZ: 84
+  PL: 55
+  DE: 45
+
+Phone numbers by language:
+  cs: 84
+  pl: 55
+  de: 45
